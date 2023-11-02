@@ -1,5 +1,7 @@
 package entidades;
 
+import exceptions.ValorDeEntradaInvalidoException;
+
 public class SimulaEmplacamento {
     private String nomeDaPlaca;
     private Double valorDoEmplacamento;
@@ -23,6 +25,9 @@ public class SimulaEmplacamento {
     }
 
     public static Double calculaValorTotal(Double valorDoEmplacamento, Double valorDeEntrada){
+        if (valorDeEntrada > valorDoEmplacamento){
+            throw new ValorDeEntradaInvalidoException("O Valor de Entrada não pode ser maior que o Valor do Emplacamento");
+        }
         double valorMenosAEntrada = valorDoEmplacamento - valorDeEntrada;
         return valorMenosAEntrada * SimulaEmplacamento.JUROS_DAS_PARCELAS + valorMenosAEntrada;
     }

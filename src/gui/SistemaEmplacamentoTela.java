@@ -4,10 +4,10 @@ import entidades.Cliente;
 import entidades.InfoEmplacamento;
 import entidades.RegistroClientes;
 import entidades.SimulaEmplacamento;
+import exceptions.ValorDeEntradaInvalidoException;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
@@ -36,6 +36,8 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JTextField caixaDeTextoValorEntrada;
     private JTextField caixaDeTextoValorEntradaCad;
     private JLabel textoDeAvisoCad;
+    private JButton botaoDeFazerCadastro;
+    private JButton botaoDeVoltarCad;
     private RegistroClientes registroClientes;
 
     public SistemaEmplacamentoTela(RegistroClientes registroClientes){
@@ -43,6 +45,8 @@ public class SistemaEmplacamentoTela extends JFrame {
         configuraTela();
         eventoBotaoDeSimular();
         eventoBotaoDeCadastrar();
+        eventoBotaoDeFazerCadastro();
+        eventoDoBotaoDeVoltarDaTelaDeCadastro();
         avisoAoFecharJanela();
     }
 
@@ -56,25 +60,56 @@ public class SistemaEmplacamentoTela extends JFrame {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
+    public void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
+        botaoDeVoltarCad.addActionListener(e -> {
+            telaPrincipal.setSelectedIndex(0);
+        });
+    }
+    public void eventoBotaoDeFazerCadastro(){
+        botaoDeFazerCadastro.addActionListener(e -> {
+            if (caixaDeTextoEhVaziaTelaDeSimulacao()){
+                textoDeAviso.setText("Preencha todos os campos!");
+            } else{
+                telaPrincipal.setSelectedIndex(1);
+                pegarDadosDaTelaDeSimulacao();
+            }
+        });
+    }
+
+    public void pegarDadosDaTelaDeSimulacao(){
+        caixaDeTextoPlacaCad.setText(caixaDeTextoPlaca.getText());
+        caixaDeTextoEmplacamentoCad.setText(caixaDeTextoValorEmplacamento.getText());
+        caixaDeTextoValorEntradaCad.setText(caixaDeTextoValorEntrada.getText());
+        caixaDeTextoValorTotalCad.setText(caixaDeTextoValorTotal.getText());
+        caixaDeTextoValorParcelaCad.setText(caixaDeTextoValorParcela.getText());
+        seletorParcelaCad.setSelectedIndex(seletorDeParcela.getSelectedIndex());
+    }
+
     public void eventoBotaoDeSimular(){
         botaoDeSimular.addActionListener(e -> {
             if (caixaDeTextoEhVaziaTelaDeSimulacao()){
                 textoDeAviso.setText("Preencha todos os campos!");
             } else {
-                Double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText());
-                Integer quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
-                Double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntrada.getText());
+                try{
+                    Double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText().replace(",","."));
+                    Integer quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
+                    Double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntrada.getText().replace(",","."));
 
-                Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
-                Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
+                    Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
+                    Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
 
-                String valorTotalFormatado = formatadorDeNumeros(valorTotal);
-                String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
+                    String valorTotalFormatado = formatadorDeNumeros(valorTotal);
+                    String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
 
-                caixaDeTextoValorTotal.setText(valorTotalFormatado);
-                caixaDeTextoValorParcela.setText(String.valueOf(valorDaParcelaFormatado));
+                    caixaDeTextoValorTotal.setText(valorTotalFormatado);
+                    caixaDeTextoValorParcela.setText(String.valueOf(valorDaParcelaFormatado));
 
-                textoDeAviso.setText("");
+                    textoDeAviso.setText("");
+                } catch (ValorDeEntradaInvalidoException exception){
+                    textoDeAviso.setText(exception.getMessage());
+                } catch (NumberFormatException exception){
+                    textoDeAviso.setText("Digite apenas Números nos Campos de Valor!");
+                }
             }
         });
     }
@@ -88,12 +123,13 @@ public class SistemaEmplacamentoTela extends JFrame {
                 registroClientes.cadastrarClientes(clienteParaCadastrar);
                 JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
                 textoDeAvisoCad.setText("");
-                limparCamposDeTexto();
+                limparCamposDeTextoTelaDeCadastro();
+                limparCamposDeTextoTelaDeSimulacao();
             }
         });
     }
 
-    public void limparCamposDeTexto(){
+    public void limparCamposDeTextoTelaDeCadastro(){
         caixaDeTextoNomeCliente.setText("");
         caixaDeTextoTelefone.setText("");
         caixaDeTextoPlacaCad.setText("");
@@ -101,6 +137,16 @@ public class SistemaEmplacamentoTela extends JFrame {
         caixaDeTextoValorEntradaCad.setText("");
         caixaDeTextoValorTotalCad.setText("");
         caixaDeTextoValorParcelaCad.setText("");
+        seletorParcelaCad.setSelectedIndex(0);
+    }
+
+    public void limparCamposDeTextoTelaDeSimulacao(){
+        caixaDeTextoPlaca.setText("");
+        caixaDeTextoValorEmplacamento.setText("");
+        caixaDeTextoValorEntrada.setText("");
+        caixaDeTextoValorTotal.setText("");
+        caixaDeTextoValorParcela.setText("");
+        seletorDeParcela.setSelectedIndex(0);
     }
 
     public Cliente criaObjetoCliente(){
