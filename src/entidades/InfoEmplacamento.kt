@@ -2,15 +2,25 @@ package entidades
 
 import java.time.LocalDate
 
-data class InfoEmplacamento(
+class InfoEmplacamento(
     val nomeDaPlaca: String,
     val valorDoEmplacamento: Double,
+    val valorDeEntrada: Double,
     val quantidadeDeParcelas: Int,
-    val valorDeEntrada : Double,
     var dataDeVencimento: LocalDate = LocalDate.now().plusDays(30),
-    var parcelaVenceu: Boolean = false,
-    val valorTotal: Double,
-    val valorDaParcela: Double ) {
+    var parcelaVenceu: Boolean = false ) {
+
+    var valorTotal: Double = 0.0
+    var valorDaParcela: Double = 0.0
+
+    constructor( nomeDaPlaca: String, valorDoEmplacamento: Double, valorDeEntrada: Double, quantidadeDeParcelas: Int, dataDeVencimento: LocalDate,
+                 parcelaVenceu: Boolean, valorTotal: Double, valorDaParcela: Double)
+            : this(nomeDaPlaca, valorDoEmplacamento, valorDeEntrada, quantidadeDeParcelas,
+                    dataDeVencimento, parcelaVenceu) {
+            this.valorTotal = valorTotal
+            this.valorDaParcela = valorDaParcela
+
+    }
 
     fun calculaDataDeVencimento(): Int {
         val hoje = LocalDate.now()
