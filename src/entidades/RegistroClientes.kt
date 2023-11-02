@@ -1,6 +1,6 @@
 package entidades
 
-class RegistroClientes ( private val clientes: MutableList<Cliente>) {
+data class RegistroClientes ( val clientes: MutableList<Cliente>) {
 
     fun cadastrarClientes(cliente: Cliente) : String {
         clientes.add(cliente)
@@ -8,17 +8,47 @@ class RegistroClientes ( private val clientes: MutableList<Cliente>) {
 
     }
 
-    fun pesquisarClientePeloNome(nome: String){
-
+    fun pesquisarClientePeloNome(nome: String) : Cliente? {
+        for (c in clientes){
+            if(c.nome == nome ){
+                return c
+            }
+        }
+        return null
     }
 
-    fun deletarClientePeloNome(nome: String){
-
+    fun pesquisarListaClientes(nome: String) : Cliente? {
+        for (c in clientes){
+            if(c.nome.startsWith(nome)){
+                return c
+            }
+        }
+        return null
+    }
+    fun pesquisarPelaPlaca(nomePlaca: String): Cliente?{
+        for (c in clientes){
+            if(c.emplacamento.nomeDaPlaca == nomePlaca ){
+                return c
+            }
+        }
+        return null
     }
 
-    fun retornarTodosOsClientes(clientes: MutableList<Cliente>){
-
+    
+    fun pesquisarPorPagamento(){
+        // TODO: ("A implementar" ) 
     }
 
+    fun deletarClientePeloNome(nome: String) : Unit {
+        for (c in clientes){
+            if (c.nome == nome ){
+                clientes.remove(c)
+            }
+        }
+    }
+
+    fun retornarTodosOsClientes() : MutableList<Cliente> {
+        return clientes
+    }
 
 }

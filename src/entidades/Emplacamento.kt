@@ -1,10 +1,10 @@
 package entidades
 
-class Emplacamento(
-    private val nomeDaPlaca: String,
-    private val valorDoEmplacamento: Double,
-    private val quantideDeParcelas: Int,
-    private val valorTotal: Double,
-    private val valorDaParcela: Double) {
+data class Emplacamento(
+    val nomeDaPlaca: String,
+    val valorDoEmplacamento: Double,
+    val quantideDeParcelas: Int,
+    val valorTotal: Double,
+    val valorDaParcela: Double ){
 
 }
