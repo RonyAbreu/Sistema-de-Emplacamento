@@ -1,34 +1,49 @@
 package entidades
 
-data class RegistroClientes ( val clientes: MutableList<Cliente>) {
+import exceptions.ClienteJaExisteException
+import exceptions.ClienteNaoExisteException
+
+data class RegistroClientes ( val listaDeClientes: MutableList<Cliente>) {
+
+    private fun clienteJaExiste(nome: String) : Boolean{
+        for (cliente in listaDeClientes){
+            if (cliente.nome == nome){
+                return true
+            }
+        }
+        return false
+    }
 
     fun cadastrarClientes(cliente: Cliente) : String {
-        clientes.add(cliente)
+        if (clienteJaExiste(cliente.nome)){
+            throw ClienteJaExisteException("Cliente já foi cadastrado no Sistema, com o mesmo Emplacamento!");
+        }
+        listaDeClientes.add(cliente)
         return "Cliente cadastrado" // Retirar após o teste.
 
     }
 
-    fun pesquisarClientePeloNome(nome: String) : Cliente? {
-        for (c in clientes){
-            if(c.nome == nome ){
-                return c
+    fun pesquisarClientePeloNome(nome: String) : Cliente {
+        for (cliente in listaDeClientes){
+            if(cliente.nome == nome){
+                return cliente
             }
         }
-        return null
+        throw ClienteNaoExisteException("Cliente não foi encontrado no Sistema!");
     }
 
-    fun pesquisarListaClientes(nome: String) : Cliente? {
-        for (c in clientes){
-            if(c.nome.startsWith(nome)){
-                return c
+    fun pesquisarListaClientes(nome: String) : MutableList<Cliente> {
+        for (cliente in listaDeClientes){
+            if(cliente.nome.startsWith(nome)){
+                listaDeClienteEncontrados.add(cliente)
             }
         }
-        return null
+        return listaDeClienteEncontrados
     }
     fun pesquisarPelaPlaca(nomePlaca: String): Cliente?{
-        for (c in clientes){
-            if(c.emplacamento.nomeDaPlaca == nomePlaca ){
-                return c
+        for (cliente in listaDeClientes){
+            if(cliente.emplacamento.nomeDaPlaca == nomePlaca ){
+                return cliente
             }
         }
         return null
@@ -40,15 +55,15 @@ data class RegistroClientes ( val clientes: MutableList<Cliente>) {
     }
 
     fun deletarClientePeloNome(nome: String) : Unit {
-        for (c in clientes){
-            if (c.nome == nome ){
-                clientes.remove(c)
+        for (cliente in listaDeClientes){
+            if (cliente.nome == nome ){
+                listaDeClientes.remove(cliente)
             }
         }
     }
 
     fun retornarTodosOsClientes() : MutableList<Cliente> {
-        return clientes
+        return listaDeClientes
     }
 
 }

@@ -6,5 +6,16 @@ data class Emplacamento(
     val quantideDeParcelas: Int,
     val valorTotal: Double,
     val valorDaParcela: Double ){
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
+        other as Emplacamento
+
+        return nomeDaPlaca == other.nomeDaPlaca
+    }
+
+    override fun hashCode(): Int {
+        return nomeDaPlaca.hashCode()
+    }
 }
