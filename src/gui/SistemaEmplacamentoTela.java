@@ -3,6 +3,9 @@ package gui;
 import entidades.SimulaEmplacamento;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
 
 public class SistemaEmplacamentoTela extends JFrame {
     private JPanel painelPrincipal;
@@ -16,10 +19,12 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JTextField caixaDeTextoValorTotal;
     private JTextField caixaDeTextoValorParcela;
     private JComboBox seletorDeParcela;
+    private JLabel textoDeAviso;
 
     public SistemaEmplacamentoTela(){
         configuraTela();
         eventoBotaoDeSimular();
+        avisoAoFecharJanela();
     }
 
     public void configuraTela(){
@@ -29,23 +34,50 @@ public class SistemaEmplacamentoTela extends JFrame {
         setLocation(450,100);
         setVisible(true);
         setResizable(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
     public void eventoBotaoDeSimular(){
         botaoDeSimular.addActionListener(e -> {
-            Double valorDoEmplacamento = Double.valueOf(caixaDeTextoValorEmplacamento.getText());
-            Integer quantidadeDeParcelas = (Integer) seletorDeParcela.getItemAt(0);
+            if (caixaDeTextoEhVazia()){
+                textoDeAviso.setText("Preencha todos os campos!");
+            } else {
+                Double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText());
+                Integer quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
 
-            SimulaEmplacamento simulaEmplacamento = new SimulaEmplacamento();
+                Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento,quantidadeDeParcelas);
+                Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas);
 
-            Double valorDaParcela = simulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas);
+                String valorTotalFormatado = formatadorDeNumeros(valorTotal);
+                String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
 
-            Double valorTotal = simulaEmplacamento.calculaValorTotal(valorDoEmplacamento,quantidadeDeParcelas);
+                caixaDeTextoValorTotal.setText(valorTotalFormatado);
+                caixaDeTextoValorParcela.setText(String.valueOf(valorDaParcelaFormatado));
+            }
         });
     }
 
+    public String formatadorDeNumeros(Double numero){
+        return new DecimalFormat("##.##").format(numero);
+    }
+
+    public boolean caixaDeTextoEhVazia(){
+        return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank();
+    }
+
+    public void avisoAoFecharJanela(){
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int fechar = JOptionPane.showConfirmDialog(null,"Deseja Fechar a Janela?","Sair",JOptionPane.YES_NO_OPTION);
+                if(fechar == JOptionPane.YES_OPTION){
+                    System.exit(0);
+                }
+            }
+        });
+    }
     public static void main(String[] args) {
         SistemaEmplacamentoTela sistemaEmplacamentoTela = new SistemaEmplacamentoTela();
+
     }
 }
