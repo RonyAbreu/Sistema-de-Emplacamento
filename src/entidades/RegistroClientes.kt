@@ -3,7 +3,7 @@ package entidades
 import exceptions.ClienteJaExisteException
 import exceptions.ClienteNaoExisteException
 
-data class RegistroClientes ( val listaDeClientes: MutableList<Cliente>) {
+data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayList()) {
 
     private fun clienteJaExiste(nome: String) : Boolean{
         for (cliente in listaDeClientes){
@@ -32,13 +32,14 @@ data class RegistroClientes ( val listaDeClientes: MutableList<Cliente>) {
         throw ClienteNaoExisteException("Cliente não foi encontrado no Sistema!");
     }
 
-    fun pesquisarListaClientes(nome: String) : MutableList<Cliente> {
+    fun pesquisarListaClientes(nome: String) : ArrayList<Cliente> {
+        val listaDeClientesRetornados = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
             if(cliente.nome.startsWith(nome)){
-                listaDeClienteEncontrados.add(cliente)
+                listaDeClientesRetornados.add(cliente)
             }
         }
-        return listaDeClienteEncontrados
+        return listaDeClientesRetornados
     }
     fun pesquisarPelaPlaca(nomePlaca: String): Cliente?{
         for (cliente in listaDeClientes){
