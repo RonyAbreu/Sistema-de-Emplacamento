@@ -6,8 +6,6 @@ public class SimulaEmplacamento {
     private String nomeDaPlaca;
     private Double valorDoEmplacamento;
     private Integer quantidadeDeParcelas;
-    private Double valorTotal;
-    private Double valorDaParcela;
 
     public SimulaEmplacamento(){
     }
@@ -64,21 +62,5 @@ public class SimulaEmplacamento {
 
     public void setValorDoEmplacamento(Double valorDoEmplacamento) {
         this.valorDoEmplacamento = valorDoEmplacamento;
-    }
-
-    public Double getValorTotal() {
-        return valorTotal;
-    }
-
-    public void setValorTotal(Double valorTotal) {
-        this.valorTotal = valorTotal;
-    }
-
-    public Double getValorDaParcela() {
-        return valorDaParcela;
-    }
-
-    public void setValorDaParcela(Double valorDaParcela) {
-        this.valorDaParcela = valorDaParcela;
     }
 }
