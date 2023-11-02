@@ -5,8 +5,9 @@ import java.time.LocalDate
 data class Cliente(
     var nome: String,
     var telefone: String,
-    var dataCadastro: LocalDate,
-    var emplacamento: Emplacamento ) {
+    var dataCadastro: LocalDate = LocalDate.now(),
+    var emplacamento: Emplacamento,
+    var blocoDeAnotacao : String) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

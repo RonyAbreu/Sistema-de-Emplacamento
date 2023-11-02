@@ -3,7 +3,8 @@ package entidades
 data class Emplacamento(
     val nomeDaPlaca: String,
     val valorDoEmplacamento: Double,
-    val quantideDeParcelas: Int ){
+    val quantideDeParcelas: Int,
+    val pagamento: Pagamento){
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

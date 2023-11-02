@@ -45,7 +45,7 @@ public class SistemaEmplacamentoTela extends JFrame {
                 Double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText());
                 Integer quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
 
-                Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento,quantidadeDeParcelas);
+                Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento);
                 Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas);
 
                 String valorTotalFormatado = formatadorDeNumeros(valorTotal);

@@ -1,11 +1,10 @@
 package entidades;
 
-import util.Juros;
-
 public class SimulaEmplacamento {
     private String nomeDaPlaca;
     private Double valorDoEmplacamento;
     private Integer quantidadeDeParcelas;
+    public static final Double JUROS_DAS_PARCELAS = 0.043;
 
     public SimulaEmplacamento(){
     }
@@ -23,16 +22,12 @@ public class SimulaEmplacamento {
                 "Parcelado em: " + quantidadeDeParcelas + " vezes";
     }
 
-    public static Double calculaValorTotal(Double valorDoEmplacamento, Integer quantidadeDeParcelas){
-        if (quantidadeDeParcelas == 1) return valorDoEmplacamento;
-        if (quantidadeDeParcelas == 2) return (valorDoEmplacamento * Juros.JUROS_DE_2_PARCELAS) + valorDoEmplacamento;
-        if (quantidadeDeParcelas == 3) return (valorDoEmplacamento * Juros.JUROS_DE_3_PARCELAS) + valorDoEmplacamento;
-        if (quantidadeDeParcelas == 4) return (valorDoEmplacamento * Juros.JUROS_DE_4_PARCELAS) + valorDoEmplacamento;
-        else return 0.0;
+    public static Double calculaValorTotal(Double valorDoEmplacamento){
+        return (valorDoEmplacamento * JUROS_DAS_PARCELAS) + valorDoEmplacamento;
     }
 
     public static Double calculaValorDaParcela(Double valorDoEmplacamento, Integer quantidadeDeParcelas){
-        var valorTotal = calculaValorTotal(valorDoEmplacamento,quantidadeDeParcelas);
+        double valorTotal = calculaValorTotal(valorDoEmplacamento);
         if (quantidadeDeParcelas == 1) return valorTotal;
         if (quantidadeDeParcelas == 2) return valorTotal / 2;
         if (quantidadeDeParcelas == 3) return valorTotal / 3;
