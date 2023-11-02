@@ -3,22 +3,24 @@ package entidades
 import util.Juros
 import java.time.LocalDate
 
-class Pagamento(
-    val dataDeVencimento: LocalDate,
+data class Pagamento(
+    var dataDeVencimento: LocalDate = LocalDate.now().plusDays(31),
     var parcelaVenceu: Boolean = false,
     val valorTotal: Double,
     val valorDaParcela: Double ) {
 
 
-    fun calculaDataDeVencimento( dataDeVencimento: LocalDate ) {
-
-
+    fun calculaDataDeVencimento() : Boolean{
+        val hoje = LocalDate.now()
+        if (hoje > dataDeVencimento){
+            parcelaVenceu = true
+            return true
+        }
+       return false
     }
 
-    fun calculaJurosPorDia(dataDeVencimento: LocalDate, valorDaParcela: Double, valorTotal: Double){
-
-
-
+    fun calculaJurosPorDia(valorDaParcela: Double, valorTotal: Double) : Double{
+        return 0.0
     }
 
 
