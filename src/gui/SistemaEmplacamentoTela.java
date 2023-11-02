@@ -35,6 +35,7 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JButton botaoCadastrar;
     private JTextField caixaDeTextoValorEntrada;
     private JTextField caixaDeTextoValorEntradaCad;
+    private JLabel textoDeAvisoCad;
     private RegistroClientes registroClientes;
 
     public SistemaEmplacamentoTela(RegistroClientes registroClientes){
@@ -80,31 +81,60 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoBotaoDeCadastrar(){
         botaoCadastrar.addActionListener(e -> {
-            String nome = caixaDeTextoNomeCliente.getText();
-            String telefone = caixaDeTextoTelefone.getText();
-            LocalDate dataDeCadastro = LocalDate.now();
-            String blocoDeAnotacao = campoDeAnotacao.getText();
-
-            String nomeDaPlaca = caixaDeTextoPlacaCad.getText();
-            String valorDoEmplacamento = caixaDeTextoEmplacamentoCad.getText();
-            String valorDeEntrada = caixaDeTextoValorEntradaCad.getText();
-            int quantidadeDeParcelas = seletorParcelaCad.getSelectedIndex() + 1;
-            LocalDate dataDeVencimento = LocalDate.now().plusDays(30);
-            boolean parcelaVenceu = false;
-
-            InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,Double.parseDouble(valorDoEmplacamento),Double.parseDouble(valorDeEntrada),quantidadeDeParcelas,dataDeVencimento,parcelaVenceu);
-            emplacamento.setValorTotal(emplacamento.calculaValorTotal());
-            emplacamento.setValorDaParcela(emplacamento.calculaValorDaParcela());
-
-            Cliente clienteParaCadastrar = new Cliente(nome,telefone,dataDeCadastro,blocoDeAnotacao,emplacamento);
-            JOptionPane.showMessageDialog(null, clienteParaCadastrar);
-
-            registroClientes.cadastrarClientes(clienteParaCadastrar);
+            if (caixaDeTextoEhVaziaTelaDeCadastro()){
+                textoDeAvisoCad.setText("Preencha todos os campos!");
+            } else {
+                Cliente clienteParaCadastrar = criaObjetoCliente();
+                registroClientes.cadastrarClientes(clienteParaCadastrar);
+                JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
+                textoDeAvisoCad.setText("");
+                limparCamposDeTexto();
+            }
         });
     }
 
+    public void limparCamposDeTexto(){
+        caixaDeTextoNomeCliente.setText("");
+        caixaDeTextoTelefone.setText("");
+        caixaDeTextoPlacaCad.setText("");
+        caixaDeTextoEmplacamentoCad.setText("");
+        caixaDeTextoValorEntradaCad.setText("");
+        caixaDeTextoValorTotalCad.setText("");
+        caixaDeTextoValorParcelaCad.setText("");
+    }
+
+    public Cliente criaObjetoCliente(){
+        String nome = caixaDeTextoNomeCliente.getText();
+        String telefone = caixaDeTextoTelefone.getText();
+        LocalDate dataDeCadastro = LocalDate.now();
+        String blocoDeAnotacao = campoDeAnotacao.getText();
+
+        InfoEmplacamento emplacamento = criaObjetoInfoEmplacamento();
+
+        return new Cliente(nome,telefone,dataDeCadastro,blocoDeAnotacao,emplacamento);
+    }
+
+    public InfoEmplacamento criaObjetoInfoEmplacamento(){
+        String nomeDaPlaca = caixaDeTextoPlacaCad.getText();
+        double valorDoEmplacamento = Double.parseDouble(caixaDeTextoEmplacamentoCad.getText());
+        double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntradaCad.getText());
+        int quantidadeDeParcelas = seletorParcelaCad.getSelectedIndex() + 1;
+        LocalDate dataDeVencimento = LocalDate.now().plusDays(30);
+        boolean parcelaVenceu = false;
+
+        InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,valorDoEmplacamento,valorDeEntrada,quantidadeDeParcelas,dataDeVencimento,parcelaVenceu);
+
+        double valorTotal = Double.parseDouble(formatadorDeNumeros(emplacamento.calculaValorTotal()));
+        double valorDaParcela = Double.parseDouble(formatadorDeNumeros(emplacamento.calculaValorDaParcela()));
+
+        emplacamento.setValorTotal(valorTotal);
+        emplacamento.setValorDaParcela(valorDaParcela);
+
+        return emplacamento;
+    }
+
     public String formatadorDeNumeros(Double numero){
-        return new DecimalFormat("##.##").format(numero);
+        return new DecimalFormat("##.##").format(numero).replace(",",".");
     }
 
     public boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
