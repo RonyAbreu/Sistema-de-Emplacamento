@@ -159,9 +159,4 @@ public class SistemaEmplacamentoTela extends JFrame {
             }
         });
     }
-    public static void main(String[] args) {
-        RegistroClientes registroClientes1 = new RegistroClientes();
-        SistemaEmplacamentoTela sistemaEmplacamentoTela = new SistemaEmplacamentoTela(registroClientes1);
-
-    }
 }
