@@ -53,6 +53,8 @@ public class SistemaEmplacamentoTela extends JFrame {
 
                 caixaDeTextoValorTotal.setText(valorTotalFormatado);
                 caixaDeTextoValorParcela.setText(String.valueOf(valorDaParcelaFormatado));
+
+                textoDeAviso.setText("");
             }
         });
     }
