@@ -14,13 +14,11 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayLi
         return false
     }
 
-    fun cadastrarClientes(cliente: Cliente) : String {
+    fun cadastrarClientes(cliente: Cliente){
         if (clienteJaExiste(cliente.nome)){
-            throw ClienteJaExisteException("Cliente já foi cadastrado no Sistema, com o mesmo Emplacamento!");
+            throw ClienteJaExisteException("Cliente já foi cadastrado no Sistema, com o mesmo Emplacamento.");
         }
         listaDeClientes.add(cliente)
-        return "Cliente cadastrado" // Retirar após o teste.
-
     }
 
     fun pesquisarClientePeloNome(nome: String) : Cliente {
@@ -29,7 +27,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayLi
                 return cliente
             }
         }
-        throw ClienteNaoExisteException("Cliente não foi encontrado no Sistema!");
+        throw ClienteNaoExisteException("Cliente não foi encontrado no Sistema.");
     }
 
     fun pesquisarListaClientes(nome: String) : ArrayList<Cliente> {
@@ -39,23 +37,30 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayLi
                 listaDeClientesRetornados.add(cliente)
             }
         }
+        if (listaDeClientesRetornados.isEmpty()){
+            throw ClienteNaoExisteException("Não existe clientes com esse nome.")
+        }
+
         return listaDeClientesRetornados
     }
-    fun pesquisarPelaPlaca(nomePlaca: String): Cliente?{
+    fun pesquisarPelaPlaca(nomePlaca: String): Cliente {
         for (cliente in listaDeClientes){
             if(cliente.emplacamento.nomeDaPlaca == nomePlaca ){
                 return cliente
             }
         }
-        return null
+        throw ClienteNaoExisteException("Não existe cliente com essa placa.")
     }
 
-    
-    fun pesquisarPorPagamento(){
+    fun pesquisarClientesComPagamentoVencido(){
         // TODO: ("A implementar" ) 
     }
 
-    fun deletarClientePeloNome(nome: String) : Unit {
+    fun deletarClientePeloNome(nome: String) {
+
+        if(!clienteJaExiste(nome)){
+            throw ClienteNaoExisteException("Não existe cliente com esse nome.")
+        }
         for (cliente in listaDeClientes){
             if (cliente.nome == nome ){
                 listaDeClientes.remove(cliente)
@@ -63,7 +68,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayLi
         }
     }
 
-    fun retornarTodosOsClientes() : MutableList<Cliente> {
+    fun retornarTodosOsClientes() : ArrayList<Cliente> {
         return listaDeClientes
     }
 
