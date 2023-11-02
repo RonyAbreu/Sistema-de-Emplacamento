@@ -22,12 +22,13 @@ public class SimulaEmplacamento {
                 "Parcelado em: " + quantidadeDeParcelas + " vezes";
     }
 
-    public static Double calculaValorTotal(Double valorDoEmplacamento){
-        return (valorDoEmplacamento * JUROS_DAS_PARCELAS) + valorDoEmplacamento;
+    public static Double calculaValorTotal(Double valorDoEmplacamento, Double valorDeEntrada){
+        double valorMenosAEntrada = valorDoEmplacamento - valorDeEntrada;
+        return valorMenosAEntrada * SimulaEmplacamento.JUROS_DAS_PARCELAS + valorMenosAEntrada;
     }
 
-    public static Double calculaValorDaParcela(Double valorDoEmplacamento, Integer quantidadeDeParcelas){
-        double valorTotal = calculaValorTotal(valorDoEmplacamento);
+    public static Double calculaValorDaParcela(Double valorDoEmplacamento, Integer quantidadeDeParcelas, Double valorDeEntrada){
+        double valorTotal = calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
         if (quantidadeDeParcelas == 1) return valorTotal;
         if (quantidadeDeParcelas == 2) return valorTotal / 2;
         if (quantidadeDeParcelas == 3) return valorTotal / 3;

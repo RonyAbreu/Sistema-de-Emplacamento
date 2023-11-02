@@ -1,11 +1,15 @@
 package gui;
 
+import entidades.Cliente;
+import entidades.InfoEmplacamento;
+import entidades.RegistroClientes;
 import entidades.SimulaEmplacamento;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
 
 public class SistemaEmplacamentoTela extends JFrame {
     private JPanel painelPrincipal;
@@ -29,10 +33,15 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JTextField caixaDeTextoValorTotalCad;
     private JTextField caixaDeTextoValorParcelaCad;
     private JButton botaoCadastrar;
+    private JTextField caixaDeTextoValorEntrada;
+    private JTextField caixaDeTextoValorEntradaCad;
+    private RegistroClientes registroClientes;
 
-    public SistemaEmplacamentoTela(){
+    public SistemaEmplacamentoTela(RegistroClientes registroClientes){
+        this.registroClientes = registroClientes;
         configuraTela();
         eventoBotaoDeSimular();
+        eventoBotaoDeCadastrar();
         avisoAoFecharJanela();
     }
 
@@ -48,14 +57,15 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoBotaoDeSimular(){
         botaoDeSimular.addActionListener(e -> {
-            if (caixaDeTextoEhVazia()){
+            if (caixaDeTextoEhVaziaTelaDeSimulacao()){
                 textoDeAviso.setText("Preencha todos os campos!");
             } else {
                 Double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText());
                 Integer quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
+                Double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntrada.getText());
 
-                Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento);
-                Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas);
+                Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
+                Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
 
                 String valorTotalFormatado = formatadorDeNumeros(valorTotal);
                 String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
@@ -68,12 +78,44 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
+    public void eventoBotaoDeCadastrar(){
+        botaoCadastrar.addActionListener(e -> {
+            String nome = caixaDeTextoNomeCliente.getText();
+            String telefone = caixaDeTextoTelefone.getText();
+            LocalDate dataDeCadastro = LocalDate.now();
+            String blocoDeAnotacao = campoDeAnotacao.getText();
+
+            String nomeDaPlaca = caixaDeTextoPlacaCad.getText();
+            String valorDoEmplacamento = caixaDeTextoEmplacamentoCad.getText();
+            String valorDeEntrada = caixaDeTextoValorEntradaCad.getText();
+            int quantidadeDeParcelas = seletorParcelaCad.getSelectedIndex() + 1;
+            LocalDate dataDeVencimento = LocalDate.now().plusDays(30);
+            boolean parcelaVenceu = false;
+
+            InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,Double.parseDouble(valorDoEmplacamento),Double.parseDouble(valorDeEntrada),quantidadeDeParcelas,dataDeVencimento,parcelaVenceu);
+            emplacamento.setValorTotal(emplacamento.calculaValorTotal());
+            emplacamento.setValorDaParcela(emplacamento.calculaValorDaParcela());
+
+            Cliente clienteParaCadastrar = new Cliente(nome,telefone,dataDeCadastro,blocoDeAnotacao,emplacamento);
+            JOptionPane.showMessageDialog(null, clienteParaCadastrar);
+
+            registroClientes.cadastrarClientes(clienteParaCadastrar);
+        });
+    }
+
     public String formatadorDeNumeros(Double numero){
         return new DecimalFormat("##.##").format(numero);
     }
 
-    public boolean caixaDeTextoEhVazia(){
-        return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank();
+    public boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
+        return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank() || caixaDeTextoValorEntrada.getText().isBlank();
+    }
+
+    public boolean caixaDeTextoEhVaziaTelaDeCadastro(){
+        return caixaDeTextoNomeCliente.getText().isBlank() || caixaDeTextoTelefone.getText().isBlank() ||
+                caixaDeTextoPlacaCad.getText().isBlank() || caixaDeTextoEmplacamentoCad.getText().isBlank() ||
+                caixaDeTextoValorEntradaCad.getText().isBlank() || caixaDeTextoValorTotalCad.getText().isBlank() ||
+                caixaDeTextoValorParcelaCad.getText().isBlank();
     }
 
     public void avisoAoFecharJanela(){
@@ -88,7 +130,8 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
     public static void main(String[] args) {
-        SistemaEmplacamentoTela sistemaEmplacamentoTela = new SistemaEmplacamentoTela();
+        RegistroClientes registroClientes1 = new RegistroClientes();
+        SistemaEmplacamentoTela sistemaEmplacamentoTela = new SistemaEmplacamentoTela(registroClientes1);
 
     }
 }

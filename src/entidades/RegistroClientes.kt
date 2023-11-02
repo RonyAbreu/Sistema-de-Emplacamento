@@ -1,6 +1,5 @@
 package entidades
 
-import exceptions.ClienteJaExisteException
 import exceptions.ClienteNaoExisteException
 
 data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayList()) {
@@ -15,9 +14,6 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayLi
     }
 
     fun cadastrarClientes(cliente: Cliente){
-        if (clienteJaExiste(cliente.nome)){
-            throw ClienteJaExisteException("Cliente já foi cadastrado no Sistema, com o mesmo Emplacamento.");
-        }
         listaDeClientes.add(cliente)
     }
 
