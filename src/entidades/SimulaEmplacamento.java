@@ -21,7 +21,7 @@ public class SimulaEmplacamento {
     @Override
     public String toString() {
         return "Nome da Placa: " + nomeDaPlaca + "\n"+
-                "Valor do Emplacamento: " + valorDoEmplacamento + "R$\n"+
+                "Valor do entidades.Emplacamento: " + valorDoEmplacamento + "R$\n"+
                 "Parcelado em: " + quantidadeDeParcelas + " vezes";
     }
 
