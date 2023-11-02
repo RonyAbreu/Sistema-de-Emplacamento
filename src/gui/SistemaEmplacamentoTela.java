@@ -20,6 +20,15 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JTextField caixaDeTextoValorParcela;
     private JComboBox seletorDeParcela;
     private JLabel textoDeAviso;
+    private JTextPane campoDeAnotacao;
+    private JTextField caixaDeTextoNomeCliente;
+    private JTextField caixaDeTextoTelefone;
+    private JTextField caixaDeTextoPlacaCad;
+    private JTextField caixaDeTextoEmplacamentoCad;
+    private JComboBox seletorParcelaCad;
+    private JTextField caixaDeTextoValorTotalCad;
+    private JTextField caixaDeTextoValorParcelaCad;
+    private JButton botaoCadastrar;
 
     public SistemaEmplacamentoTela(){
         configuraTela();

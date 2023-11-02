@@ -52,8 +52,19 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayLi
         throw ClienteNaoExisteException("Não existe cliente com essa placa.")
     }
 
-    fun pesquisarClientesComPagamentoVencido(){
-        // TODO: ("A implementar" ) 
+    fun pesquisarClientesComPagamentoVencido() : ArrayList<Cliente>{
+        val listaDeClientesComPagamentoAtrasado = ArrayList<Cliente>()
+        for (cliente in listaDeClientes){
+            if (cliente.emplacamento.parcelaVenceu){
+                listaDeClientesComPagamentoAtrasado.add(cliente)
+            }
+        }
+
+        if (listaDeClientesComPagamentoAtrasado.isEmpty()){
+            throw ClienteNaoExisteException("Não existe clientes com o pagamento atrasado!")
+        }
+
+        return listaDeClientesComPagamentoAtrasado
     }
 
     fun deletarClientePeloNome(nome: String) {

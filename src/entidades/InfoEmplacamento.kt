@@ -2,10 +2,11 @@ package entidades
 
 import java.time.LocalDate
 
-class InfoEmplacamento(
+data class InfoEmplacamento(
     val nomeDaPlaca: String,
     val valorDoEmplacamento: Double,
     val quantidadeDeParcelas: Int,
+    val valorDeEntrada : Double,
     var dataDeVencimento: LocalDate = LocalDate.now().plusDays(30),
     var parcelaVenceu: Boolean = false,
     val valorTotal: Double,
@@ -41,6 +42,4 @@ class InfoEmplacamento(
         if (quantidadeDeParcelas == 4) return valorTotal / 4
         else return 0.0
     }
-
-
 }
