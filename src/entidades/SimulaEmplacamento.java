@@ -18,6 +18,11 @@ public class SimulaEmplacamento {
         this.quantidadeDeParcelas = quantidadeDeParcelas;
     }
 
+    public SimulaEmplacamento(Double valorDoEmplacamento, Integer quantidadeDeParcelas) {
+        this.valorDoEmplacamento = valorDoEmplacamento;
+        this.quantidadeDeParcelas = quantidadeDeParcelas;
+    }
+
     @Override
     public String toString() {
         return "Nome da Placa: " + nomeDaPlaca + "\n"+
@@ -25,7 +30,7 @@ public class SimulaEmplacamento {
                 "Parcelado em: " + quantidadeDeParcelas + " vezes";
     }
 
-    public Double calculaValorTotal(){
+    public Double calculaValorTotal(Double valorDoEmplacamento, Integer quantidadeDeParcelas){
         if (quantidadeDeParcelas == 1) return valorDoEmplacamento;
         if (quantidadeDeParcelas == 2) return (valorDoEmplacamento * Juros.JUROS_DE_2_PARCELAS) + valorDoEmplacamento;
         if (quantidadeDeParcelas == 3) return (valorDoEmplacamento * Juros.JUROS_DE_3_PARCELAS) + valorDoEmplacamento;
@@ -33,8 +38,8 @@ public class SimulaEmplacamento {
         else return 0.0;
     }
 
-    public Double calculaValorDaParcela(){
-        var valorTotal = calculaValorTotal();
+    public Double calculaValorDaParcela(Double valorDoEmplacamento, Integer quantidadeDeParcelas){
+        var valorTotal = calculaValorTotal(valorDoEmplacamento,quantidadeDeParcelas);
         if (quantidadeDeParcelas == 2) return valorTotal / 2;
         if (quantidadeDeParcelas == 3) return valorTotal / 3;
         if (quantidadeDeParcelas == 4) return valorTotal / 4;

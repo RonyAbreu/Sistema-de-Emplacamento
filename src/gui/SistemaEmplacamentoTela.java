@@ -1,5 +1,7 @@
 package gui;
 
+import entidades.SimulaEmplacamento;
+
 import javax.swing.*;
 
 public class SistemaEmplacamentoTela extends JFrame {
@@ -8,13 +10,16 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JPanel painelDeSimulacao;
     private JPanel painelDeCadastro;
     private JPanel painelDeConsulta;
-    private JTextField caixaDeTextoDaPlaca;
-    private JComboBox seletorDeParcelas;
-    private JTextField caixaDeTextoDoValorDoEmplacamento;
-    private JButton simularButton;
+    private JTextField caixaDeTextoPlaca;
+    private JButton botaoDeSimular;
+    private JTextField caixaDeTextoValorEmplacamento;
+    private JTextField caixaDeTextoValorTotal;
+    private JTextField caixaDeTextoValorParcela;
+    private JComboBox seletorDeParcela;
 
     public SistemaEmplacamentoTela(){
         configuraTela();
+        eventoBotaoDeSimular();
     }
 
     public void configuraTela(){
@@ -25,6 +30,19 @@ public class SistemaEmplacamentoTela extends JFrame {
         setVisible(true);
         setResizable(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public void eventoBotaoDeSimular(){
+        botaoDeSimular.addActionListener(e -> {
+            Double valorDoEmplacamento = Double.valueOf(caixaDeTextoValorEmplacamento.getText());
+            Integer quantidadeDeParcelas = (Integer) seletorDeParcela.getItemAt(0);
+
+            SimulaEmplacamento simulaEmplacamento = new SimulaEmplacamento();
+
+            Double valorDaParcela = simulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas);
+
+            Double valorTotal = simulaEmplacamento.calculaValorTotal(valorDoEmplacamento,quantidadeDeParcelas);
+        });
     }
 
     public static void main(String[] args) {
