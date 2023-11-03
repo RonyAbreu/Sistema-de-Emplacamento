@@ -1,9 +1,9 @@
 package gui;
 
-import entidades.Cliente;
-import entidades.InfoEmplacamento;
-import entidades.RegistroClientes;
-import entidades.SimulaEmplacamento;
+import entity.Cliente;
+import entity.InfoEmplacamento;
+import entity.RegistroClientes;
+import entity.SimulaEmplacamento;
 import exceptions.ValorDeEntradaInvalidoException;
 
 import javax.swing.*;

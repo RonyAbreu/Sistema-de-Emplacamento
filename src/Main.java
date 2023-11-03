@@ -1,4 +1,4 @@
-import entidades.RegistroClientes;
+import entity.RegistroClientes;
 import gui.SistemaEmplacamentoTela;
 
 public class Main {

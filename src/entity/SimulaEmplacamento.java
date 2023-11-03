@@ -1,4 +1,4 @@
-package entidades;
+package entity;
 
 import exceptions.ValorDeEntradaInvalidoException;
 
