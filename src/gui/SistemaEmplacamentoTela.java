@@ -38,6 +38,12 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JLabel textoDeAvisoCad;
     private JButton botaoDeFazerCadastro;
     private JButton botaoDeVoltarCad;
+    private JTable tabelaDeClientes;
+    private JButton botaoDeBuscar;
+    private JTextField campoDeTextoBuscar;
+    private JCheckBox caixaDeSelecaoPorNomeDoCliente;
+    private JCheckBox caixaDeSelecaoPorNomeDaPlaca;
+    private JCheckBox caixaDeSelecaoPorParcelasVencidas;
     private RegistroClientes registroClientes;
 
     public SistemaEmplacamentoTela(RegistroClientes registroClientes){
