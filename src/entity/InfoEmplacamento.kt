@@ -1,5 +1,6 @@
 package entity
 
+import java.io.Serializable
 import java.time.LocalDate
 
 data class InfoEmplacamento(
@@ -8,7 +9,7 @@ data class InfoEmplacamento(
     val valorDeEntrada: Double,
     val quantidadeDeParcelas: Int,
     var dataDeVencimento: LocalDate,
-    var parcelaVenceu: Boolean) {
+    var parcelaVenceu: Boolean) : Serializable {
 
     var valorTotal: Double = calculaValorTotal()
     var valorDaParcela: Double = calculaValorDaParcela()

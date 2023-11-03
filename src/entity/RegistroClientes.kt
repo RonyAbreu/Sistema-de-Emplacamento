@@ -2,7 +2,7 @@ package entity
 
 import exceptions.ClienteNaoExisteException
 
-data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente> = ArrayList()) {
+data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
     private fun clienteJaExiste(nome: String) : Boolean{
         for (cliente in listaDeClientes){

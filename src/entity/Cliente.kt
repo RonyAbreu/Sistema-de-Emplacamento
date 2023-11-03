@@ -1,5 +1,6 @@
 package entity
 
+import java.io.Serializable
 import java.time.LocalDate
 
 data class Cliente(
@@ -7,5 +8,5 @@ data class Cliente(
     var telefone: String,
     var dataCadastro: LocalDate,
     var blocoDeAnotacao : String,
-    var emplacamento: InfoEmplacamento) {
+    var emplacamento: InfoEmplacamento) : Serializable{
 }

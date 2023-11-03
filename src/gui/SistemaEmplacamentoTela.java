@@ -1,5 +1,6 @@
 package gui;
 
+import db.BancoDeDados;
 import entity.Cliente;
 import entity.InfoEmplacamento;
 import entity.RegistroClientes;
@@ -8,6 +9,7 @@ import exceptions.ValorDeEntradaInvalidoException;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 
@@ -45,6 +47,7 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JCheckBox caixaDeSelecaoPorNomeDaPlaca;
     private JCheckBox caixaDeSelecaoPorParcelasVencidas;
     private RegistroClientes registroClientes;
+    private BancoDeDados bancoDeDados;
 
     public SistemaEmplacamentoTela(RegistroClientes registroClientes){
         this.registroClientes = registroClientes;
@@ -127,12 +130,25 @@ public class SistemaEmplacamentoTela extends JFrame {
             } else {
                 Cliente clienteParaCadastrar = criaObjetoCliente();
                 registroClientes.cadastrarClientes(clienteParaCadastrar);
-                JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
-                textoDeAvisoCad.setText("");
-                limparCamposDeTextoTelaDeCadastro();
-                limparCamposDeTextoTelaDeSimulacao();
+
+                salvarCliente();
             }
         });
+    }
+
+    public void salvarCliente(){
+        try {
+            bancoDeDados = new BancoDeDados();
+            bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
+
+            JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
+
+            textoDeAvisoCad.setText("");
+            limparCamposDeTextoTelaDeCadastro();
+            limparCamposDeTextoTelaDeSimulacao();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,"Não foi possível salvar o Cliente");
+        }
     }
 
     public void limparCamposDeTextoTelaDeCadastro(){
