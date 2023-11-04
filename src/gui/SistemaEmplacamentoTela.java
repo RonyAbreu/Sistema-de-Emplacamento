@@ -222,9 +222,9 @@ public class SistemaEmplacamentoTela extends JFrame {
         emplacamento.setValorTotal(valorTotal);
 
         Parcela parcela = new Parcela();
-        parcela.setValorDaParcela(parcela.calculaValorDaParcela(quantidadeDeParcelas));
+        parcela.setValorDaParcela(emplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada));
 
-        ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas, parcela);
+        ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas,parcela);
 
         emplacamento.setParcelas(listaDeParcelas);
 
@@ -234,20 +234,30 @@ public class SistemaEmplacamentoTela extends JFrame {
     public ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
         ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
         for (int i = 0; i < quantidadeDeParcelas; i++){
-            if (i  == 1){
-                LocalDate dataDaSegundaParcela = parcela.getDataDeVencimento().plusDays(30);
-                parcela.setDataDeVencimento(dataDaSegundaParcela);
-                listaDeParcelas.add(parcela);
-            } else if (i == 2) {
-                LocalDate dataDaTerceiraParcela = parcela.getDataDeVencimento().plusDays(60);
-                parcela.setDataDeVencimento(dataDaTerceiraParcela);
-                listaDeParcelas.add(parcela);
-            } else if (i == 3) {
-                LocalDate dataDaQuartaParcela = parcela.getDataDeVencimento().plusDays(90);
-                parcela.setDataDeVencimento(dataDaQuartaParcela);
-                listaDeParcelas.add(parcela);
+            if(i == 0){
+                Parcela parcela1 = new Parcela();
+                parcela1.setValorDaParcela(parcela.getValorDaParcela());
+               listaDeParcelas.add(parcela1);
             }
-            listaDeParcelas.add(parcela);
+            if (i == 1){
+                Parcela parcela2 = new Parcela();
+                parcela2.setValorDaParcela(parcela.getValorDaParcela());
+                LocalDate dataDaSegundaParcela = parcela2.getDataDeVencimento().plusDays(30);
+                parcela2.setDataDeVencimento(dataDaSegundaParcela);
+                listaDeParcelas.add(parcela2);
+            } else if (i == 2) {
+                Parcela parcela3 = new Parcela();
+                parcela3.setValorDaParcela(parcela.getValorDaParcela());
+                LocalDate dataDaTerceiraParcela = parcela3.getDataDeVencimento().plusDays(60);
+                parcela3.setDataDeVencimento(dataDaTerceiraParcela);
+                listaDeParcelas.add(parcela3);
+            } else if (i == 3) {
+                Parcela parcela4 = new Parcela();
+                parcela4.setValorDaParcela(parcela.getValorDaParcela());
+                LocalDate dataDaQuartaParcela = parcela4.getDataDeVencimento().plusDays(90);
+                parcela4.setDataDeVencimento(dataDaQuartaParcela);
+                listaDeParcelas.add(parcela4);
+            }
         }
         return listaDeParcelas;
     }
