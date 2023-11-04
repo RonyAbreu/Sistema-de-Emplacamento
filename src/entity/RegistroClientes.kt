@@ -1,6 +1,7 @@
 package entity
 
 import exceptions.ClienteNaoExisteException
+import java.time.LocalDate
 
 data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
@@ -17,14 +18,6 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         listaDeClientes.add(cliente)
     }
 
-    fun pesquisarClientePeloNome(nome: String) : Cliente {
-        for (cliente in listaDeClientes){
-            if(cliente.nome == nome){
-                return cliente
-            }
-        }
-        throw ClienteNaoExisteException("Cliente não foi encontrado no Sistema.");
-    }
 
     fun pesquisarListaClientes(nome: String) : ArrayList<Cliente> {
         val listaDeClientesRetornados = ArrayList<Cliente>()
@@ -48,14 +41,13 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         throw ClienteNaoExisteException("Não existe cliente com essa placa.")
     }
 
-    fun pesquisarClientesComPagamentoVencido() : ArrayList<Cliente>{
+    fun pesquisarClientesComPagamentoVencido( dataVencimento: LocalDate ) : ArrayList<Cliente>{
         val listaDeClientesComPagamentoAtrasado = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
-            if (cliente.emplacamento.parcelaVenceu){
+            if (cliente.emplacamento.parcelas.validaDataVencimento()){
                 listaDeClientesComPagamentoAtrasado.add(cliente)
             }
         }
-
         if (listaDeClientesComPagamentoAtrasado.isEmpty()){
             throw ClienteNaoExisteException("Não existe clientes com o pagamento atrasado!")
         }
@@ -64,7 +56,6 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
     }
 
     fun deletarClientePeloNome(nome: String) {
-
         if(!clienteJaExiste(nome)){
             throw ClienteNaoExisteException("Não existe cliente com esse nome.")
         }
