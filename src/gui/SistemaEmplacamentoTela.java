@@ -123,12 +123,14 @@ public class SistemaEmplacamentoTela extends JFrame {
                 textoDeAviso.setText("Preencha todos os campos!");
             } else {
                 try{
-                    Double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText().replace(",","."));
-                    Integer quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
-                    Double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntrada.getText().replace(",","."));
+                    double valorDoEmplacamento = Double.parseDouble(caixaDeTextoValorEmplacamento.getText().replace(",","."));
+                    int quantidadeDeParcelas = seletorDeParcela.getSelectedIndex() + 1;
+                    double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntrada.getText().replace(",","."));
 
-                    Double valorTotal = SimulaEmplacamento.calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
-                    Double valorDaParcela = SimulaEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
+                    InfoEmplacamento infoEmplacamento = new InfoEmplacamento();
+
+                    Double valorTotal = infoEmplacamento.calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
+                    Double valorDaParcela = infoEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
 
                     String valorTotalFormatado = formatadorDeNumeros(valorTotal);
                     String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);

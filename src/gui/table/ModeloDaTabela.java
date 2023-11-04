@@ -30,7 +30,7 @@ public class ModeloDaTabela extends AbstractTableModel {
             case 1 -> listaDeClientes.get(rowIndex).getTelefone();
             case 2 -> listaDeClientes.get(rowIndex).getEmplacamento().getNomeDaPlaca();
             case 3 -> listaDeClientes.get(rowIndex).getEmplacamento().getQuantidadeDeParcelas();
-            case 4 -> listaDeClientes.get(rowIndex).getEmplacamento().getParcelas();
+            case 4 -> listaDeClientes.get(rowIndex).getEmplacamento().getParcelas().get(0).getValorDaParcela();
             case 5 -> listaDeClientes.get(rowIndex).getEmplacamento().getValorTotal();
             default -> "-";
         };
