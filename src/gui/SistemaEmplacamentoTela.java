@@ -91,6 +91,19 @@ public class SistemaEmplacamentoTela extends JFrame {
         }
     }
 
+    public void retornaDadosDaTabelaAposCadastro(){
+        ArrayList<Cliente> listaDeClientes;
+        bancoDeDados = new BancoDeDados();
+        try {
+            listaDeClientes = bancoDeDados.retornarDados();
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,"Dados não foram atualizados");
+        }
+    }
+
 
     public void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
         botaoDeVoltarCad.addActionListener(e -> {
@@ -157,6 +170,8 @@ public class SistemaEmplacamentoTela extends JFrame {
                 registroClientes.cadastrarClientes(clienteParaCadastrar);
 
                 salvarCliente();
+
+                retornaDadosDaTabelaAposCadastro();
             }
         });
     }
@@ -185,6 +200,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         caixaDeTextoValorTotalCad.setText("");
         caixaDeTextoValorParcelaCad.setText("");
         seletorParcelaCad.setSelectedIndex(0);
+        campoDeAnotacao.setText("");
     }
 
     public void limparCamposDeTextoTelaDeSimulacao(){
