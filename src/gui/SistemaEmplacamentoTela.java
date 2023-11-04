@@ -6,12 +6,14 @@ import entity.InfoEmplacamento;
 import entity.RegistroClientes;
 import entity.SimulaEmplacamento;
 import exceptions.ValorDeEntradaInvalidoException;
+import gui.table.ModeloDaTabela;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class SistemaEmplacamentoTela extends JFrame {
     private JPanel painelPrincipal;
@@ -40,12 +42,12 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JLabel textoDeAvisoCad;
     private JButton botaoDeFazerCadastro;
     private JButton botaoDeVoltarCad;
-    private JTable tabelaDeClientes;
     private JButton botaoDeBuscar;
     private JTextField campoDeTextoBuscar;
     private JCheckBox caixaDeSelecaoPorNomeDoCliente;
     private JCheckBox caixaDeSelecaoPorNomeDaPlaca;
     private JCheckBox caixaDeSelecaoPorParcelasVencidas;
+    private JTable tabelaDeClientes;
     private RegistroClientes registroClientes;
     private BancoDeDados bancoDeDados;
 
@@ -57,6 +59,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoBotaoDeFazerCadastro();
         eventoDoBotaoDeVoltarDaTelaDeCadastro();
         avisoAoFecharJanela();
+        configuraTabela();
     }
 
     public void configuraTela(){
@@ -68,6 +71,29 @@ public class SistemaEmplacamentoTela extends JFrame {
         setResizable(true);
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
+
+    public void eventoDoBotaoDeBuscar(){
+        botaoDeBuscar.addActionListener(e -> {
+
+        });
+    }
+
+    public void configuraTabela(){
+        ArrayList<Cliente> listaDeClientes;
+        bancoDeDados = new BancoDeDados();
+        try {
+            listaDeClientes = bancoDeDados.retornarDados();
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null,"Iniciando sem dados!");
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(new ArrayList<>());
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }
+    }
+
 
     public void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
         botaoDeVoltarCad.addActionListener(e -> {
