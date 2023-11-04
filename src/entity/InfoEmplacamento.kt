@@ -29,7 +29,7 @@ data class InfoEmplacamento(
         return valorMenosAEntrada * jurosDasParcelas + valorMenosAEntrada
     }
 
-    fun calculaValorTotal(valorDoEmplacamento: Double, valorDeEntrada: Double): Double {
+    fun calculaValorTotalSimulacao(valorDoEmplacamento: Double, valorDeEntrada: Double): Double {
         if (valorDeEntrada > valorDoEmplacamento) {
             throw ValorDeEntradaInvalidoException("O Valor de Entrada não pode ser maior que o Valor do Emplacamento")
         }
@@ -38,7 +38,7 @@ data class InfoEmplacamento(
     }
 
     fun calculaValorDaParcela(valorDoEmplacamento: Double, quantidadeDeParcelas: Int, valorDeEntrada: Double): Double {
-        val valorTotal = calculaValorTotal(valorDoEmplacamento, valorDeEntrada)
+        val valorTotal = calculaValorTotalSimulacao(valorDoEmplacamento, valorDeEntrada)
         if (quantidadeDeParcelas == 1) return valorTotal
         if (quantidadeDeParcelas == 2) return valorTotal / 2
         if (quantidadeDeParcelas == 3) return valorTotal / 3

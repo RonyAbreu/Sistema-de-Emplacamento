@@ -129,7 +129,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
                     InfoEmplacamento infoEmplacamento = new InfoEmplacamento();
 
-                    Double valorTotal = infoEmplacamento.calculaValorTotal(valorDoEmplacamento,valorDeEntrada);
+                    Double valorTotal = infoEmplacamento.calculaValorTotalSimulacao(valorDoEmplacamento,valorDeEntrada);
                     Double valorDaParcela = infoEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
 
                     String valorTotalFormatado = formatadorDeNumeros(valorTotal);
@@ -198,9 +198,11 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public Cliente criaObjetoCliente(){
         String nome = caixaDeTextoNomeCliente.getText();
+        System.out.println(nome);
         String telefone = caixaDeTextoTelefone.getText();
-        LocalDate dataDeCadastro = LocalDate.now();
+        System.out.println(telefone);
         String blocoDeAnotacao = campoDeAnotacao.getText();
+        System.out.println(blocoDeAnotacao);
 
         InfoEmplacamento emplacamento = criaObjetoInfoEmplacamento();
 
@@ -231,7 +233,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
         ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
-        for (int i = 0; i < quantidadeDeParcelas; i ++){
+        for (int i = 0; i < quantidadeDeParcelas; i++){
             if (i  == 1){
                 LocalDate dataDaSegundaParcela = parcela.getDataDeVencimento().plusDays(30);
                 parcela.setDataDeVencimento(dataDaSegundaParcela);
@@ -241,7 +243,7 @@ public class SistemaEmplacamentoTela extends JFrame {
                 parcela.setDataDeVencimento(dataDaTerceiraParcela);
                 listaDeParcelas.add(parcela);
             } else if (i == 3) {
-                LocalDate dataDaQuartaParcela = parcela.getDataDeVencimento().plusDays(60);
+                LocalDate dataDaQuartaParcela = parcela.getDataDeVencimento().plusDays(90);
                 parcela.setDataDeVencimento(dataDaQuartaParcela);
                 listaDeParcelas.add(parcela);
             }
