@@ -4,9 +4,8 @@ import java.io.Serializable
 import java.time.LocalDate
 
 data class Parcela(
-    val dataDeVencimento: LocalDate = LocalDate.now().plusDays(30) ) : Serializable {
-
-    val valorDaParcela: Double = calculaValorDaParcela(InfoEmplacamento().quantidadeDeParcelas)
+    var dataDeVencimento: LocalDate = LocalDate.now().plusDays(30)) : Serializable {
+    var valorDaParcela: Double = 0.0
 
     fun calculaDiasDeVencimento(): Int {
         val hoje = LocalDate.now()

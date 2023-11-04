@@ -1,10 +1,7 @@
 package gui;
 
 import db.BancoDeDados;
-import entity.Cliente;
-import entity.InfoEmplacamento;
-import entity.RegistroClientes;
-import entity.SimulaEmplacamento;
+import entity.*;
 import exceptions.ValorDeEntradaInvalidoException;
 import gui.table.ModeloDaTabela;
 
@@ -213,18 +210,42 @@ public class SistemaEmplacamentoTela extends JFrame {
         double valorDoEmplacamento = Double.parseDouble(caixaDeTextoEmplacamentoCad.getText());
         double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntradaCad.getText());
         int quantidadeDeParcelas = seletorParcelaCad.getSelectedIndex() + 1;
-        LocalDate dataDeVencimento = LocalDate.now().plusDays(30);
-        boolean parcelaVenceu = false;
 
-        InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,valorDoEmplacamento,valorDeEntrada,quantidadeDeParcelas,dataDeVencimento,parcelaVenceu);
+        InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,valorDoEmplacamento,valorDeEntrada,quantidadeDeParcelas);
 
         double valorTotal = Double.parseDouble(formatadorDeNumeros(emplacamento.calculaValorTotal()));
-        double valorDaParcela = Double.parseDouble(formatadorDeNumeros(emplacamento.calculaValorDaParcela()));
 
         emplacamento.setValorTotal(valorTotal);
-        emplacamento.setValorDaParcela(valorDaParcela);
+
+        Parcela parcela = new Parcela();
+        parcela.setValorDaParcela(parcela.calculaValorDaParcela(quantidadeDeParcelas));
+
+        ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas, parcela);
+
+        emplacamento.setParcelas(listaDeParcelas);
 
         return emplacamento;
+    }
+
+    public ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
+        ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
+        for (int i = 0; i < quantidadeDeParcelas; i ++){
+            if (i  == 1){
+                LocalDate dataDaSegundaParcela = parcela.getDataDeVencimento().plusDays(30);
+                parcela.setDataDeVencimento(dataDaSegundaParcela);
+                listaDeParcelas.add(parcela);
+            } else if (i == 2) {
+                LocalDate dataDaTerceiraParcela = parcela.getDataDeVencimento().plusDays(60);
+                parcela.setDataDeVencimento(dataDaTerceiraParcela);
+                listaDeParcelas.add(parcela);
+            } else if (i == 3) {
+                LocalDate dataDaQuartaParcela = parcela.getDataDeVencimento().plusDays(60);
+                parcela.setDataDeVencimento(dataDaQuartaParcela);
+                listaDeParcelas.add(parcela);
+            }
+            listaDeParcelas.add(parcela);
+        }
+        return listaDeParcelas;
     }
 
     public String formatadorDeNumeros(Double numero){

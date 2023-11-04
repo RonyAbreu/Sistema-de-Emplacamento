@@ -41,17 +41,20 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         throw ClienteNaoExisteException("Não existe cliente com essa placa.")
     }
 
-    fun pesquisarClientesComPagamentoVencido( dataVencimento: LocalDate ) : ArrayList<Cliente>{
+    fun pesquisarClientesComPagamentoVencido() : ArrayList<Cliente>{
         val listaDeClientesComPagamentoAtrasado = ArrayList<Cliente>()
+        val listaDeParcelas = ArrayList<Parcela>()
         for (cliente in listaDeClientes){
-            if (cliente.emplacamento.parcelas.validaDataVencimento()){
-                listaDeClientesComPagamentoAtrasado.add(cliente)
+            listaDeParcelas.addAll(cliente.emplacamento.parcelas)
+            for (parcela in listaDeParcelas){
+                if (parcela.validaDataVencimento()){
+                    listaDeClientesComPagamentoAtrasado.add(cliente)
+                }
             }
         }
         if (listaDeClientesComPagamentoAtrasado.isEmpty()){
             throw ClienteNaoExisteException("Não existe clientes com o pagamento atrasado!")
         }
-
         return listaDeClientesComPagamentoAtrasado
     }
 

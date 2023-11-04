@@ -11,8 +11,7 @@ data class InfoEmplacamento(
     ) : Serializable {
 
     var valorTotal: Double = calculaValorTotal()
-    val parcelas = Parcela()
-
+    var parcelas = ArrayList<Parcela>()
 
     fun calculaValorTotal() : Double {
         var valorMenosAEntrada : Double = valorDoEmplacamento - valorDeEntrada
