@@ -202,7 +202,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
         InfoEmplacamento emplacamento = criaObjetoInfoEmplacamento();
 
-        return new Cliente(nome,telefone,dataDeCadastro,blocoDeAnotacao,emplacamento);
+        return new Cliente(nome,telefone,blocoDeAnotacao,emplacamento);
     }
 
     public InfoEmplacamento criaObjetoInfoEmplacamento(){

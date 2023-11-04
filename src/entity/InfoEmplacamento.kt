@@ -1,7 +1,6 @@
 package entity
 
 import java.io.Serializable
-import java.time.LocalDate
 
 data class InfoEmplacamento(
     val nomeDaPlaca: String = "",
@@ -13,8 +12,18 @@ data class InfoEmplacamento(
     var valorTotal: Double = calculaValorTotal()
     var parcelas = ArrayList<Parcela>()
 
+    fun retornaListaDeParcelasVencidas() : ArrayList<Parcela>{
+        val listaDeParcelasVencidas = ArrayList<Parcela>()
+        for (p in parcelas){
+            if (p.validaDataVencimento()){
+                listaDeParcelasVencidas.add(p)
+            }
+        }
+        return listaDeParcelasVencidas
+    }
+
     fun calculaValorTotal() : Double {
-        var valorMenosAEntrada : Double = valorDoEmplacamento - valorDeEntrada
+        val valorMenosAEntrada : Double = valorDoEmplacamento - valorDeEntrada
         return valorMenosAEntrada * SimulaEmplacamento.JUROS_DAS_PARCELAS + valorMenosAEntrada
     }
 

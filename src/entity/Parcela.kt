@@ -6,6 +6,7 @@ import java.time.LocalDate
 data class Parcela(
     var dataDeVencimento: LocalDate = LocalDate.now().plusDays(30)) : Serializable {
     var valorDaParcela: Double = 0.0
+    var parcelaPaga = false
 
     fun calculaDiasDeVencimento(): Int {
         val hoje = LocalDate.now()
@@ -16,11 +17,9 @@ data class Parcela(
     }
     fun validaDataVencimento(): Boolean {
         val hoje = LocalDate.now()
-        if (hoje > dataDeVencimento) {
-            return true
-        }
-        return false
+        return hoje > dataDeVencimento && !parcelaPaga
     }
+
     fun calculaParcelaComJuros(valorDaParcela: Double): Double {
         val diasVencidos = calculaDiasDeVencimento()
         val jurosDias = valorDaParcela * 0.001

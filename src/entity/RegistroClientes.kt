@@ -1,7 +1,6 @@
 package entity
 
 import exceptions.ClienteNaoExisteException
-import java.time.LocalDate
 
 data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
@@ -43,13 +42,9 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
     fun pesquisarClientesComPagamentoVencido() : ArrayList<Cliente>{
         val listaDeClientesComPagamentoAtrasado = ArrayList<Cliente>()
-        val listaDeParcelas = ArrayList<Parcela>()
         for (cliente in listaDeClientes){
-            listaDeParcelas.addAll(cliente.emplacamento.parcelas)
-            for (parcela in listaDeParcelas){
-                if (parcela.validaDataVencimento()){
-                    listaDeClientesComPagamentoAtrasado.add(cliente)
-                }
+            if (cliente.emplacamento.retornaListaDeParcelasVencidas().isNotEmpty()){
+                listaDeClientesComPagamentoAtrasado.add(cliente)
             }
         }
         if (listaDeClientesComPagamentoAtrasado.isEmpty()){
