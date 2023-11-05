@@ -48,7 +48,7 @@ class RegistroClientesTest {
 
         val registroClientes = RegistroClientes(listaClientes)
 
-        Assertions.assertEquals( mutableListOf(cliente).isNotEmpty(), registroClientes.pesquisarListaClientes(cliente.nome).isNotEmpty() )
+        Assertions.assertEquals( mutableListOf(cliente) , registroClientes.pesquisarListaClientes(cliente.nome).isNotEmpty() )
 
         // Certamente ele me retorna uma lista de clientes!
 
@@ -82,10 +82,13 @@ class RegistroClientesTest {
         val listaClientes = ArrayList<Cliente>()
         listaClientes.add(cliente)
 
+
         val pagamento = Parcela(dataDeVencimento = LocalDate.of(2023,10,9))
         val registroClientes = RegistroClientes(listaClientes)
 
-        assertEquals( pagamento.validaDataVencimento(), cliente.emplacamento.retornaListaDeParcelasVencidas().isEmpty())
+
+        assertEquals( cliente.emplacamento.retornaListaDeParcelasVencidas() , registroClientes.pesquisarClientesComPagamentoVencido())
+       // assertEquals( pagamento.validaDataVencimento(), cliente.emplacamento.retornaListaDeParcelasVencidas().isEmpty())
 
     }
 
