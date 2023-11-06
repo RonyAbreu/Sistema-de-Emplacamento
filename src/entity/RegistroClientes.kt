@@ -60,6 +60,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         for (cliente in listaDeClientes){
             if (cliente.nome == nome ){
                 listaDeClientes.remove(cliente)
+                break
             }
         }
     }

@@ -8,6 +8,7 @@ import exceptions.ClienteNaoExisteException
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 import java.time.LocalDate
 
 class RegistroClientesTest {
@@ -62,13 +63,11 @@ class RegistroClientesTest {
             emplacamento = InfoEmplacamento("placa", 300.0,
                 50.0,2)
         )
+        val registroClientes = RegistroClientes(ArrayList())
 
-        val listaClientes = ArrayList<Cliente>()
-        listaClientes.add(cliente)
+        registroClientes.cadastrarClientes(cliente)
 
-        val registroClientes = RegistroClientes(listaClientes)
-
-        assertEquals( cliente , registroClientes.pesquisarPelaPlaca(cliente.emplacamento.nomeDaPlaca) )
+        assertEquals( "placa", registroClientes.pesquisarPelaPlaca(cliente.emplacamento.nomeDaPlaca).emplacamento.nomeDaPlaca )
     }
 
     @Test
@@ -100,14 +99,55 @@ class RegistroClientesTest {
         val registroClientes = RegistroClientes(ArrayList())
         registroClientes.cadastrarClientes(cliente)
 
-//        assertTrue(registroClientes.pesquisarClientesComPagamentoVencido().isEmpty())
+        assertThrows<ClienteNaoExisteException>{
+            registroClientes.pesquisarClientesComPagamentoVencido()
+        }
     }
 
     @Test
     fun deletarClientePeloNome() {
+        val emplacamento = InfoEmplacamento()
+
+        val cliente = Cliente("Joao", "8888", "", emplacamento)
+
+        val registroClientes = RegistroClientes(ArrayList())
+
+        registroClientes.cadastrarClientes(cliente)
+
+        registroClientes.deletarClientePeloNome(cliente.nome)
+
+        assertTrue(registroClientes.retornarTodosOsClientes().isEmpty())
+    }
+    @Test
+    fun deletarClientePeloNomeLancaThrow() {
+        val emplacamento = InfoEmplacamento()
+
+        val cliente = Cliente("Joao", "8888", "", emplacamento)
+
+        val registroClientes = RegistroClientes(ArrayList())
+
+        registroClientes.cadastrarClientes(cliente)
+
+        registroClientes.deletarClientePeloNome(cliente.nome)
+
+        assertThrows<ClienteNaoExisteException>{
+            registroClientes.deletarClientePeloNome(cliente.nome)
+        }
     }
 
     @Test
     fun retornarTodosOsClientes() {
+        val emplacamento = InfoEmplacamento()
+
+        val cliente = Cliente("Joao", "8888", "", emplacamento)
+
+        val registroClientes = RegistroClientes(ArrayList())
+
+        registroClientes.cadastrarClientes(cliente)
+
+        registroClientes.deletarClientePeloNome(cliente.nome)
+
+        assertTrue(registroClientes.retornarTodosOsClientes().isEmpty())
+
     }
 }
