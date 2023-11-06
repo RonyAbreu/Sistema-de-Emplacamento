@@ -23,11 +23,13 @@ data class InfoEmplacamento(
         }
         return listaDeParcelasVencidas
     }
-
+    fun adicionaParcela(parcela : Parcela){
+        listaDeparcelas.add(parcela)
+    }
     fun parcelasEstaoQuitadas() : Boolean{
          var numeroDeParcelasPagas = 0
          for (parcela in listaDeparcelas){
-             if (parcela.parcelaFoiPaga){
+             if (parcela.pagamentoAtrasado){
                  numeroDeParcelasPagas += 1
              }
          }

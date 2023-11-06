@@ -18,7 +18,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
     }
 
 
-    fun pesquisarListaClientes(nome: String) : ArrayList<Cliente> {
+    fun pesquisarListaDeClientesPeloNome(nome: String) : ArrayList<Cliente> {
         val listaDeClientesRetornados = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
             if(cliente.nome.startsWith(nome)){
