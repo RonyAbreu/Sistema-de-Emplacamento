@@ -31,13 +31,19 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
         return listaDeClientesRetornados
     }
-    fun pesquisarPelaPlaca(nomePlaca: String): Cliente {
+    fun pesquisarPelaPlaca(nomePlaca: String) : ArrayList<Cliente>{
+        val listaDeClientesRetornados = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
             if(cliente.emplacamento.nomeDaPlaca == nomePlaca ){
-                return cliente
+                listaDeClientesRetornados.add(cliente)
             }
         }
-        throw ClienteNaoExisteException("Não existe cliente com essa placa.")
+
+        if (listaDeClientesRetornados.isEmpty()){
+            throw ClienteNaoExisteException("Não existe Clientes com essa Placa!")
+        }
+        return listaDeClientesRetornados
+
     }
 
     fun pesquisarClientesComPagamentoVencido() : ArrayList<Cliente>{
@@ -48,14 +54,14 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
             }
         }
         if (listaDeClientesComPagamentoAtrasado.isEmpty()){
-            throw ClienteNaoExisteException("Não existe clientes com o pagamento atrasado!")
+            throw ClienteNaoExisteException("Não existe Clientes com o Pagamento atrasado!")
         }
         return listaDeClientesComPagamentoAtrasado
     }
 
     fun deletarClientePeloNome(nome: String) {
         if(!clienteJaExiste(nome)){
-            throw ClienteNaoExisteException("Não existe cliente com esse nome.")
+            throw ClienteNaoExisteException("Não existe Cliente com esse Nome.")
         }
         for (cliente in listaDeClientes){
             if (cliente.nome == nome ){
