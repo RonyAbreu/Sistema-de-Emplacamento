@@ -11,17 +11,27 @@ data class InfoEmplacamento(
     ) : Serializable {
 
     var valorTotal: Double = calculaValorTotal()
-    var parcelas = ArrayList<Parcela>()
+    var listaDeparcelas = ArrayList<Parcela>()
     private val jurosDasParcelas = 0.043
 
     fun retornaListaDeParcelasVencidas() : ArrayList<Parcela>{
         val listaDeParcelasVencidas = ArrayList<Parcela>()
-        for (p in parcelas){
+        for (p in listaDeparcelas){
             if (p.validaDataVencimento()){
                 listaDeParcelasVencidas.add(p)
             }
         }
         return listaDeParcelasVencidas
+    }
+
+    fun parcelasEstaoQuitadas() : Boolean{
+         var numeroDeParcelasPagas = 0
+         for (parcela in listaDeparcelas){
+             if (parcela.parcelaFoiPaga){
+                 numeroDeParcelasPagas += 1
+             }
+         }
+        return numeroDeParcelasPagas == listaDeparcelas.size
     }
 
     fun calculaValorTotal() : Double {

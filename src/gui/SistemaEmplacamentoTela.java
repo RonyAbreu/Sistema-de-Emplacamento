@@ -45,8 +45,9 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JCheckBox caixaDeSelecaoPorNomeDaPlaca;
     private JCheckBox caixaDeSelecaoPorParcelasVencidas;
     private JTable tabelaDeClientes;
+    private JLabel textoDeAvisoConsul;
     private RegistroClientes registroClientes;
-    private BancoDeDados bancoDeDados;
+    private BancoDeDados bancoDeDados = new BancoDeDados();
 
     public SistemaEmplacamentoTela(RegistroClientes registroClientes){
         this.registroClientes = registroClientes;
@@ -56,7 +57,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoBotaoDeFazerCadastro();
         eventoDoBotaoDeVoltarDaTelaDeCadastro();
         avisoAoFecharJanela();
-        configuraTabela();
+        retornaTodosOsClientesParaATabela();
     }
 
     public void configuraTela(){
@@ -71,39 +72,60 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoDoBotaoDeBuscar(){
         botaoDeBuscar.addActionListener(e -> {
+            if (todasAsCaixasDeSelecaoMarcadas() || caixaDeNomeClienteENomePlacaMarcadas()
+                    || caixaDeNomeClienteEParcelasMarcadas() || caixaDeNomePlacaEParcelasMarcadas()){
+                textoDeAvisoConsul.setText("Selecione apenas UM filtro de pesquisa!");
+            }
+            else if (campoDePesquisaEhVazio()) {
+                textoDeAvisoConsul.setText("Insira o Nome do Cliente ou da Placa que deseja buscar");
+            }
+            else if(caixaDeSelecaoPorNomeDoCliente.isSelected()){
 
+            }
+            else if (caixaDeSelecaoPorNomeDaPlaca.isSelected()) {
+
+            }
+            else if(caixaDeSelecaoPorParcelasVencidas.isSelected()){
+
+            }
         });
     }
 
-    public void configuraTabela(){
-        ArrayList<Cliente> listaDeClientes;
-        bancoDeDados = new BancoDeDados();
-        try {
-            listaDeClientes = bancoDeDados.retornarDados();
-            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
-            tabelaDeClientes.setModel(modeloDaTabela);
-            tabelaDeClientes.setAutoCreateRowSorter(true);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null,"Iniciando sem dados!");
-            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(new ArrayList<>());
-            tabelaDeClientes.setModel(modeloDaTabela);
-            tabelaDeClientes.setAutoCreateRowSorter(true);
+    public boolean campoDePesquisaEhVazio(){
+        if ((caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isBlank()) ||
+                caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isBlank()){
+            return true;
         }
+        return false;
     }
 
-    public void retornaDadosDaTabelaAposCadastro(){
-        ArrayList<Cliente> listaDeClientes;
-        bancoDeDados = new BancoDeDados();
-        try {
-            listaDeClientes = bancoDeDados.retornarDados();
-            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
-            tabelaDeClientes.setModel(modeloDaTabela);
-            tabelaDeClientes.setAutoCreateRowSorter(true);
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null,"Dados não foram atualizados");
-        }
+    public boolean todasAsCaixasDeSelecaoMarcadas(){
+        return caixaDeSelecaoPorNomeDoCliente.isSelected()
+                && caixaDeSelecaoPorNomeDaPlaca.isSelected()
+                && caixaDeSelecaoPorParcelasVencidas.isSelected();
     }
 
+    public boolean caixaDeNomeClienteENomePlacaMarcadas(){
+        return caixaDeSelecaoPorNomeDoCliente.isSelected()
+                && caixaDeSelecaoPorNomeDaPlaca.isSelected();
+    }
+
+    public boolean caixaDeNomeClienteEParcelasMarcadas(){
+        return caixaDeSelecaoPorNomeDoCliente.isSelected()
+                && caixaDeSelecaoPorParcelasVencidas.isSelected();
+    }
+
+    public boolean caixaDeNomePlacaEParcelasMarcadas(){
+        return caixaDeSelecaoPorNomeDaPlaca.isSelected()
+                && caixaDeSelecaoPorParcelasVencidas.isSelected();
+    }
+
+    public void retornaTodosOsClientesParaATabela(){
+        ArrayList<Cliente> listaDeClientes = registroClientes.retornarTodosOsClientes();
+        ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+        tabelaDeClientes.setModel(modeloDaTabela);
+        tabelaDeClientes.setAutoCreateRowSorter(true);
+    }
 
     public void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
         botaoDeVoltarCad.addActionListener(e -> {
@@ -171,7 +193,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
                 salvarCliente();
 
-                retornaDadosDaTabelaAposCadastro();
+                retornaTodosOsClientesParaATabela();
             }
         });
     }
@@ -242,7 +264,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
         ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas,parcela);
 
-        emplacamento.setParcelas(listaDeParcelas);
+        emplacamento.setListaDeparcelas(listaDeParcelas);
 
         return emplacamento;
     }
