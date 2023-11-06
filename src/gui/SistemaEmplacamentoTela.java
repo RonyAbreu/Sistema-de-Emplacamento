@@ -2,6 +2,7 @@ package gui;
 
 import db.BancoDeDados;
 import entity.*;
+import exceptions.ClienteNaoExisteException;
 import exceptions.ValorDeEntradaInvalidoException;
 import gui.table.ModeloDaTabela;
 
@@ -56,6 +57,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoBotaoDeCadastrar();
         eventoBotaoDeFazerCadastro();
         eventoDoBotaoDeVoltarDaTelaDeCadastro();
+        eventoDoBotaoDeBuscar();
         avisoAoFecharJanela();
         retornaTodosOsClientesParaATabela();
     }
@@ -70,7 +72,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
-    public void eventoDoBotaoDeBuscar(){
+    private void eventoDoBotaoDeBuscar(){
         botaoDeBuscar.addActionListener(e -> {
             if (todasAsCaixasDeSelecaoMarcadas() || caixaDeNomeClienteENomePlacaMarcadas()
                     || caixaDeNomeClienteEParcelasMarcadas() || caixaDeNomePlacaEParcelasMarcadas()){
@@ -80,18 +82,27 @@ public class SistemaEmplacamentoTela extends JFrame {
                 textoDeAvisoConsul.setText("Insira o Nome do Cliente ou da Placa que deseja buscar");
             }
             else if(caixaDeSelecaoPorNomeDoCliente.isSelected()){
-
+                String nome = campoDeTextoBuscar.getText();
+                retornaOsClientesComNomePesquisadoParaATabela(nome);
+                textoDeAvisoConsul.setText("");
             }
             else if (caixaDeSelecaoPorNomeDaPlaca.isSelected()) {
-
+                String nomePlaca = campoDeTextoBuscar.getText();
+                retornaOsClientesComNomeDaPlacaPesquisadoParaATabela(nomePlaca);
+                textoDeAvisoConsul.setText("");
             }
             else if(caixaDeSelecaoPorParcelasVencidas.isSelected()){
-
+                retornaOsClientesOPagamentoVencidoParaATabela();
+                textoDeAvisoConsul.setText("");
+            }
+            else {
+                retornaTodosOsClientesParaATabela();
+                textoDeAvisoConsul.setText("");
             }
         });
     }
 
-    public boolean campoDePesquisaEhVazio(){
+    private boolean campoDePesquisaEhVazio(){
         if ((caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isBlank()) ||
                 caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isBlank()){
             return true;
@@ -99,40 +110,73 @@ public class SistemaEmplacamentoTela extends JFrame {
         return false;
     }
 
-    public boolean todasAsCaixasDeSelecaoMarcadas(){
+    private boolean todasAsCaixasDeSelecaoMarcadas(){
         return caixaDeSelecaoPorNomeDoCliente.isSelected()
                 && caixaDeSelecaoPorNomeDaPlaca.isSelected()
                 && caixaDeSelecaoPorParcelasVencidas.isSelected();
     }
 
-    public boolean caixaDeNomeClienteENomePlacaMarcadas(){
+    private boolean caixaDeNomeClienteENomePlacaMarcadas(){
         return caixaDeSelecaoPorNomeDoCliente.isSelected()
                 && caixaDeSelecaoPorNomeDaPlaca.isSelected();
     }
 
-    public boolean caixaDeNomeClienteEParcelasMarcadas(){
+    private boolean caixaDeNomeClienteEParcelasMarcadas(){
         return caixaDeSelecaoPorNomeDoCliente.isSelected()
                 && caixaDeSelecaoPorParcelasVencidas.isSelected();
     }
 
-    public boolean caixaDeNomePlacaEParcelasMarcadas(){
+    private boolean caixaDeNomePlacaEParcelasMarcadas(){
         return caixaDeSelecaoPorNomeDaPlaca.isSelected()
                 && caixaDeSelecaoPorParcelasVencidas.isSelected();
     }
 
-    public void retornaTodosOsClientesParaATabela(){
+    private void retornaTodosOsClientesParaATabela(){
         ArrayList<Cliente> listaDeClientes = registroClientes.retornarTodosOsClientes();
         ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
         tabelaDeClientes.setModel(modeloDaTabela);
         tabelaDeClientes.setAutoCreateRowSorter(true);
     }
 
-    public void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
+    private void retornaOsClientesComNomePesquisadoParaATabela(String nome){
+        try {
+            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarListaDeClientesPeloNome(nome);
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }catch (ClienteNaoExisteException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
+    }
+
+    private void retornaOsClientesComNomeDaPlacaPesquisadoParaATabela(String nomePlaca){
+        try {
+            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarPelaPlaca(nomePlaca);
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }catch (ClienteNaoExisteException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
+    }
+
+    private void retornaOsClientesOPagamentoVencidoParaATabela(){
+        try {
+            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarClientesComPagamentoVencido();
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }catch (ClienteNaoExisteException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
+    }
+
+    private void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
         botaoDeVoltarCad.addActionListener(e -> {
             telaPrincipal.setSelectedIndex(0);
         });
     }
-    public void eventoBotaoDeFazerCadastro(){
+    private void eventoBotaoDeFazerCadastro(){
         botaoDeFazerCadastro.addActionListener(e -> {
             if (caixaDeTextoEhVaziaTelaDeSimulacao()){
                 textoDeAviso.setText("Preencha todos os campos!");
@@ -143,7 +187,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
-    public void pegarDadosDaTelaDeSimulacao(){
+    private void pegarDadosDaTelaDeSimulacao(){
         caixaDeTextoPlacaCad.setText(caixaDeTextoPlaca.getText());
         caixaDeTextoEmplacamentoCad.setText(caixaDeTextoValorEmplacamento.getText());
         caixaDeTextoValorEntradaCad.setText(caixaDeTextoValorEntrada.getText());
@@ -152,7 +196,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         seletorParcelaCad.setSelectedIndex(seletorDeParcela.getSelectedIndex());
     }
 
-    public void eventoBotaoDeSimular(){
+    private void eventoBotaoDeSimular(){
         botaoDeSimular.addActionListener(e -> {
             if (caixaDeTextoEhVaziaTelaDeSimulacao()){
                 textoDeAviso.setText("Preencha todos os campos!");
@@ -183,7 +227,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
-    public void eventoBotaoDeCadastrar(){
+    private void eventoBotaoDeCadastrar(){
         botaoCadastrar.addActionListener(e -> {
             if (caixaDeTextoEhVaziaTelaDeCadastro()){
                 textoDeAvisoCad.setText("Preencha todos os campos!");
@@ -198,7 +242,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
-    public void salvarCliente(){
+    private void salvarCliente(){
         try {
             bancoDeDados = new BancoDeDados();
             bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
@@ -213,7 +257,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         }
     }
 
-    public void limparCamposDeTextoTelaDeCadastro(){
+    private void limparCamposDeTextoTelaDeCadastro(){
         caixaDeTextoNomeCliente.setText("");
         caixaDeTextoTelefone.setText("");
         caixaDeTextoPlacaCad.setText("");
@@ -225,7 +269,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         campoDeAnotacao.setText("");
     }
 
-    public void limparCamposDeTextoTelaDeSimulacao(){
+    private void limparCamposDeTextoTelaDeSimulacao(){
         caixaDeTextoPlaca.setText("");
         caixaDeTextoValorEmplacamento.setText("");
         caixaDeTextoValorEntrada.setText("");
@@ -234,7 +278,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         seletorDeParcela.setSelectedIndex(0);
     }
 
-    public Cliente criaObjetoCliente(){
+    private Cliente criaObjetoCliente(){
         String nome = caixaDeTextoNomeCliente.getText();
         System.out.println(nome);
         String telefone = caixaDeTextoTelefone.getText();
@@ -247,7 +291,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         return new Cliente(nome,telefone,blocoDeAnotacao,emplacamento);
     }
 
-    public InfoEmplacamento criaObjetoInfoEmplacamento(){
+    private InfoEmplacamento criaObjetoInfoEmplacamento(){
         String nomeDaPlaca = caixaDeTextoPlacaCad.getText();
         double valorDoEmplacamento = Double.parseDouble(caixaDeTextoEmplacamentoCad.getText());
         double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntradaCad.getText());
@@ -269,7 +313,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         return emplacamento;
     }
 
-    public ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
+    private ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
         ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
         for (int i = 0; i < quantidadeDeParcelas; i++){
             if(i == 0){
@@ -300,22 +344,22 @@ public class SistemaEmplacamentoTela extends JFrame {
         return listaDeParcelas;
     }
 
-    public String formatadorDeNumeros(Double numero){
+    private String formatadorDeNumeros(Double numero){
         return new DecimalFormat("##.##").format(numero).replace(",",".");
     }
 
-    public boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
+    private boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
         return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank() || caixaDeTextoValorEntrada.getText().isBlank();
     }
 
-    public boolean caixaDeTextoEhVaziaTelaDeCadastro(){
+    private boolean caixaDeTextoEhVaziaTelaDeCadastro(){
         return caixaDeTextoNomeCliente.getText().isBlank() || caixaDeTextoTelefone.getText().isBlank() ||
                 caixaDeTextoPlacaCad.getText().isBlank() || caixaDeTextoEmplacamentoCad.getText().isBlank() ||
                 caixaDeTextoValorEntradaCad.getText().isBlank() || caixaDeTextoValorTotalCad.getText().isBlank() ||
                 caixaDeTextoValorParcelaCad.getText().isBlank();
     }
 
-    public void avisoAoFecharJanela(){
+    private void avisoAoFecharJanela(){
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
