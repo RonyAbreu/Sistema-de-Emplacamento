@@ -47,6 +47,8 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JCheckBox caixaDeSelecaoPorParcelasVencidas;
     private JTable tabelaDeClientes;
     private JLabel textoDeAvisoConsul;
+    private JButton parcelasButton;
+    private JButton editarButton;
     private RegistroClientes registroClientes;
     private BancoDeDados bancoDeDados = new BancoDeDados();
 
