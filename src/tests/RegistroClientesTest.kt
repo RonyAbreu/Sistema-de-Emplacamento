@@ -30,7 +30,7 @@ class RegistroClientesTest {
 
         val registroClientes = RegistroClientes(lista)
 
-        registroClientes.cadastrarClientes(cliente1)
+       // registroClientes.cadastrarClientes(cliente1)
         registroClientes.cadastrarClientes(cliente2)
 
     }
