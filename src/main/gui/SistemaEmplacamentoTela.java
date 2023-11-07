@@ -64,7 +64,10 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoDoBotaoDeBuscar();
         avisoAoFecharJanela();
         retornaTodosOsClientesParaATabela();
+        eventoDoBotaoDeRemover();
+        eventoDoBotaoDeParcelas();
         eventoDoBotaoDeAnotacoes();
+        eventoDoBotaoDeEditar();
     }
 
     private void configuraTela(){
@@ -373,17 +376,17 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoDoBotaoDeRemover(){
         botaoDeRemover.addActionListener(e -> {
-
+            JOptionPane.showMessageDialog(null, "JA JA FICA PRONTO");
         });
     }
     public void eventoDoBotaoDeEditar(){
         botaoDeEditar.addActionListener(e -> {
-
+            TelaDeEditar telaDeEditar = new TelaDeEditar();
         });
     }
     public void eventoDoBotaoDeParcelas(){
         botaoDeParcelas.addActionListener(e -> {
-
+            JOptionPane.showMessageDialog(null, "JA JA FICA PRONTO");
         });
     }
     public void eventoDoBotaoDeAnotacoes(){

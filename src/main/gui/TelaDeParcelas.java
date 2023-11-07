@@ -4,6 +4,10 @@ import javax.swing.*;
 
 public class TelaDeParcelas extends JFrame{
     private JPanel painelPrincipal;
+    private JTextField campoDeTextoNomeClientePar;
+    private JTextField textField1;
+    private JButton pagarButton;
+    private JButton salvarButton;
 
     public TelaDeParcelas(){
         configuraTela();
@@ -12,11 +16,10 @@ public class TelaDeParcelas extends JFrame{
     public void configuraTela(){
         setContentPane(painelPrincipal);
         setTitle("Parcelas");
-        setSize(600,600);
+        setSize(800,600);
         setResizable(false);
         setVisible(true);
-        setLocation(450,100);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocation(525,200);
     }
 
     public static void main(String[] args) {

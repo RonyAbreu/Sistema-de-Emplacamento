@@ -16,7 +16,6 @@ public class Main {
         try {
             ArrayList<Cliente> clientes = bancoDeDados.retornarDados();
             registroClientes = new RegistroClientes(clientes);
-            JOptionPane.showMessageDialog(null, "Seja Bem-Vindo!");
         } catch (IOException e) {
             registroClientes = new RegistroClientes(new ArrayList<>());
             JOptionPane.showMessageDialog(null, "Erro no Banco de Dados!");
