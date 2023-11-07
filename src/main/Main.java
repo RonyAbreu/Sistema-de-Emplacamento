@@ -1,7 +1,9 @@
-import db.BancoDeDados;
-import entity.Cliente;
-import entity.RegistroClientes;
-import gui.SistemaEmplacamentoTela;
+package main;
+
+import main.db.BancoDeDados;
+import main.entity.Cliente;
+import main.entity.RegistroClientes;
+import main.gui.SistemaEmplacamentoTela;
 
 import javax.swing.*;
 import java.io.IOException;

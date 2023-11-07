@@ -1,6 +1,6 @@
-package gui.table;
+package main.gui.table;
 
-import entity.Cliente;
+import main.entity.Cliente;
 
 import javax.swing.table.AbstractTableModel;
 import java.text.DecimalFormat;

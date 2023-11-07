@@ -1,10 +1,10 @@
-package tests
+package test
 
-import entity.Cliente
-import entity.InfoEmplacamento
-import entity.Parcela
-import entity.RegistroClientes
-import exceptions.ClienteNaoExisteException
+import main.entity.Cliente
+import main.entity.InfoEmplacamento
+import main.entity.Parcela
+import main.entity.RegistroClientes
+import main.exceptions.ClienteNaoExisteException
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -67,7 +67,12 @@ class RegistroClientesTest {
 
         registroClientes.cadastrarClientes(cliente)
 
-        assertEquals( "placa", registroClientes.pesquisarPelaPlaca(cliente.emplacamento.nomeDaPlaca).emplacamento.nomeDaPlaca )
+        val listaDeClientesPelaPlaca = registroClientes.pesquisarPelaPlaca(cliente.emplacamento.nomeDaPlaca)
+
+        val primeiroClienteDaLista = listaDeClientesPelaPlaca.get(0)
+
+        assertEquals(1, listaDeClientesPelaPlaca.size)
+        assertEquals("placa", primeiroClienteDaLista.emplacamento.nomeDaPlaca)
     }
 
     @Test

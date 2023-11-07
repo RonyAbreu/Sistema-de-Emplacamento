@@ -1,6 +1,6 @@
-package db
+package main.db
 
-import entity.Cliente
+import main.entity.Cliente
 import java.io.*
 
 class BancoDeDados(private val dados : String = "dados.dat") {

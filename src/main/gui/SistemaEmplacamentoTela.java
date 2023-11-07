@@ -1,10 +1,10 @@
-package gui;
+package main.gui;
 
-import db.BancoDeDados;
-import entity.*;
-import exceptions.ClienteNaoExisteException;
-import exceptions.ValorDeEntradaInvalidoException;
-import gui.table.ModeloDaTabela;
+import main.db.BancoDeDados;
+import main.entity.*;
+import main.exceptions.ClienteNaoExisteException;
+import main.exceptions.ValorDeEntradaInvalidoException;
+import main.gui.table.ModeloDaTabela;
 
 import javax.swing.*;
 import java.awt.event.*;

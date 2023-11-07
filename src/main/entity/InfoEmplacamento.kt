@@ -1,6 +1,6 @@
-package entity
+package main.entity
 
-import exceptions.ValorDeEntradaInvalidoException
+import main.exceptions.ValorDeEntradaInvalidoException
 import java.io.Serializable
 
 data class InfoEmplacamento(

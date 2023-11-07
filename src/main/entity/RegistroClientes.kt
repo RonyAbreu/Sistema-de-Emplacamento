@@ -1,6 +1,6 @@
-package entity
+package main.entity
 
-import exceptions.ClienteNaoExisteException
+import main.exceptions.ClienteNaoExisteException
 
 data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
