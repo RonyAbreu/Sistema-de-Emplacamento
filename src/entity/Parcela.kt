@@ -7,14 +7,16 @@ data class Parcela(
     var dataDeVencimento: LocalDate = LocalDate.now().plusDays(30)) : Serializable {
     var valorDaParcela : Double = 0.0
     var pagamentoAtrasado = true
-    fun calculaDiasDeVencimento(): Int {
+
+    private fun calculaDiasDeVencimento(): Int {
         val hoje = LocalDate.now()
         if (hoje > dataDeVencimento) {
             return hoje.until(dataDeVencimento).days
         }
        return 0
     }
-    fun validaDataVencimento(): Boolean {
+
+    fun parcelaEstaAtrasada(): Boolean {
         val hoje = LocalDate.now()
         return hoje > dataDeVencimento && pagamentoAtrasado
     }
