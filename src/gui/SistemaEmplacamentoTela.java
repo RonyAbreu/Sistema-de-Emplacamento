@@ -64,7 +64,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         retornaTodosOsClientesParaATabela();
     }
 
-    public void configuraTela(){
+    private void configuraTela(){
         setTitle("Emplacamentos do John");
         setContentPane(painelPrincipal);
         setSize(1024, 768);
@@ -74,131 +74,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     }
 
-    private void eventoDoBotaoDeBuscar(){
-        botaoDeBuscar.addActionListener(e -> {
-            if (todasAsCaixasDeSelecaoMarcadas() || caixaDeNomeClienteENomePlacaMarcadas()
-                    || caixaDeNomeClienteEParcelasMarcadas() || caixaDeNomePlacaEParcelasMarcadas()){
-                textoDeAvisoConsul.setText("Selecione apenas UM filtro de pesquisa!");
-            }
-            else if (campoDePesquisaEhVazio()) {
-                textoDeAvisoConsul.setText("Insira o Nome do Cliente ou da Placa que deseja buscar");
-            }
-            else if(caixaDeSelecaoPorNomeDoCliente.isSelected()){
-                String nome = campoDeTextoBuscar.getText();
-                retornaOsClientesComNomePesquisadoParaATabela(nome);
-                textoDeAvisoConsul.setText("");
-            }
-            else if (caixaDeSelecaoPorNomeDaPlaca.isSelected()) {
-                String nomePlaca = campoDeTextoBuscar.getText();
-                retornaOsClientesComNomeDaPlacaPesquisadoParaATabela(nomePlaca);
-                textoDeAvisoConsul.setText("");
-            }
-            else if(caixaDeSelecaoPorParcelasVencidas.isSelected()){
-                retornaOsClientesOPagamentoVencidoParaATabela();
-                textoDeAvisoConsul.setText("");
-            }
-            else {
-                retornaTodosOsClientesParaATabela();
-                textoDeAvisoConsul.setText("");
-            }
-        });
-    }
-
-    private boolean campoDePesquisaEhVazio(){
-        if ((caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isBlank()) ||
-                caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isBlank()){
-            return true;
-        }
-        return false;
-    }
-
-    private boolean todasAsCaixasDeSelecaoMarcadas(){
-        return caixaDeSelecaoPorNomeDoCliente.isSelected()
-                && caixaDeSelecaoPorNomeDaPlaca.isSelected()
-                && caixaDeSelecaoPorParcelasVencidas.isSelected();
-    }
-
-    private boolean caixaDeNomeClienteENomePlacaMarcadas(){
-        return caixaDeSelecaoPorNomeDoCliente.isSelected()
-                && caixaDeSelecaoPorNomeDaPlaca.isSelected();
-    }
-
-    private boolean caixaDeNomeClienteEParcelasMarcadas(){
-        return caixaDeSelecaoPorNomeDoCliente.isSelected()
-                && caixaDeSelecaoPorParcelasVencidas.isSelected();
-    }
-
-    private boolean caixaDeNomePlacaEParcelasMarcadas(){
-        return caixaDeSelecaoPorNomeDaPlaca.isSelected()
-                && caixaDeSelecaoPorParcelasVencidas.isSelected();
-    }
-
-    private void retornaTodosOsClientesParaATabela(){
-        ArrayList<Cliente> listaDeClientes = registroClientes.retornarTodosOsClientes();
-        ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
-        tabelaDeClientes.setModel(modeloDaTabela);
-        tabelaDeClientes.setAutoCreateRowSorter(true);
-    }
-
-    private void retornaOsClientesComNomePesquisadoParaATabela(String nome){
-        try {
-            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarListaDeClientesPeloNome(nome);
-            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
-            tabelaDeClientes.setModel(modeloDaTabela);
-            tabelaDeClientes.setAutoCreateRowSorter(true);
-        }catch (ClienteNaoExisteException e){
-            JOptionPane.showMessageDialog(this,e.getMessage());
-        }
-    }
-
-    private void retornaOsClientesComNomeDaPlacaPesquisadoParaATabela(String nomePlaca){
-        try {
-            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarPelaPlaca(nomePlaca);
-            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
-            tabelaDeClientes.setModel(modeloDaTabela);
-            tabelaDeClientes.setAutoCreateRowSorter(true);
-        }catch (ClienteNaoExisteException e){
-            JOptionPane.showMessageDialog(this,e.getMessage());
-        }
-    }
-
-    private void retornaOsClientesOPagamentoVencidoParaATabela(){
-        try {
-            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarClientesComPagamentoVencido();
-            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
-            tabelaDeClientes.setModel(modeloDaTabela);
-            tabelaDeClientes.setAutoCreateRowSorter(true);
-        }catch (ClienteNaoExisteException e){
-            JOptionPane.showMessageDialog(this,e.getMessage());
-        }
-    }
-
-    private void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
-        botaoDeVoltarCad.addActionListener(e -> {
-            telaPrincipal.setSelectedIndex(0);
-        });
-    }
-    private void eventoBotaoDeFazerCadastro(){
-        botaoDeFazerCadastro.addActionListener(e -> {
-            if (caixaDeTextoEhVaziaTelaDeSimulacao()){
-                textoDeAviso.setText("Preencha todos os campos!");
-            } else{
-                telaPrincipal.setSelectedIndex(1);
-                pegarDadosDaTelaDeSimulacao();
-            }
-        });
-    }
-
-    private void pegarDadosDaTelaDeSimulacao(){
-        caixaDeTextoPlacaCad.setText(caixaDeTextoPlaca.getText());
-        caixaDeTextoEmplacamentoCad.setText(caixaDeTextoValorEmplacamento.getText());
-        caixaDeTextoValorEntradaCad.setText(caixaDeTextoValorEntrada.getText());
-        caixaDeTextoValorTotalCad.setText(caixaDeTextoValorTotal.getText());
-        caixaDeTextoValorParcelaCad.setText(caixaDeTextoValorParcela.getText());
-        seletorParcelaCad.setSelectedIndex(seletorDeParcela.getSelectedIndex());
-    }
-
-    private void eventoBotaoDeSimular(){
+    public void eventoBotaoDeSimular(){
         botaoDeSimular.addActionListener(e -> {
             if (caixaDeTextoEhVaziaTelaDeSimulacao()){
                 textoDeAviso.setText("Preencha todos os campos!");
@@ -217,7 +93,7 @@ public class SistemaEmplacamentoTela extends JFrame {
                     String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
 
                     caixaDeTextoValorTotal.setText(valorTotalFormatado);
-                    caixaDeTextoValorParcela.setText(String.valueOf(valorDaParcelaFormatado));
+                    caixaDeTextoValorParcela.setText(valorDaParcelaFormatado);
 
                     textoDeAviso.setText("");
                 } catch (ValorDeEntradaInvalidoException exception){
@@ -229,7 +105,15 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
-    private void eventoBotaoDeCadastrar(){
+    private boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
+        return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank() || caixaDeTextoValorEntrada.getText().isBlank();
+    }
+
+    private String formatadorDeNumeros(Double numero){
+        return new DecimalFormat("##.##").format(numero).replace(",",".");
+    }
+
+    public void eventoBotaoDeCadastrar(){
         botaoCadastrar.addActionListener(e -> {
             if (caixaDeTextoEhVaziaTelaDeCadastro()){
                 textoDeAvisoCad.setText("Preencha todos os campos!");
@@ -242,6 +126,76 @@ public class SistemaEmplacamentoTela extends JFrame {
                 retornaTodosOsClientesParaATabela();
             }
         });
+    }
+
+    private Cliente criaObjetoCliente(){
+        String nome = caixaDeTextoNomeCliente.getText();
+        String telefone = caixaDeTextoTelefone.getText();
+        String blocoDeAnotacao = campoDeAnotacao.getText();
+
+        InfoEmplacamento emplacamento = criaObjetoInfoEmplacamento();
+
+        return new Cliente(nome,telefone,blocoDeAnotacao,emplacamento);
+    }
+
+    private InfoEmplacamento criaObjetoInfoEmplacamento(){
+        String nomeDaPlaca = caixaDeTextoPlacaCad.getText();
+        double valorDoEmplacamento = Double.parseDouble(caixaDeTextoEmplacamentoCad.getText());
+        double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntradaCad.getText());
+        int quantidadeDeParcelas = seletorParcelaCad.getSelectedIndex() + 1;
+
+        InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,valorDoEmplacamento,valorDeEntrada,quantidadeDeParcelas);
+        double valorTotal = emplacamento.calculaValorTotal();
+        String valorTotalFormatado = formatadorDeNumeros(valorTotal);
+        emplacamento.setValorTotal(Double.parseDouble(valorTotalFormatado));
+
+        Parcela parcela = new Parcela();
+        double valorDaParcela = emplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
+        parcela.setValorDaParcela(valorDaParcela);
+
+        ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas,parcela);
+
+        emplacamento.setListaDeparcelas(listaDeParcelas);
+
+        return emplacamento;
+    }
+
+    private ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
+        ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
+        for (int i = 0; i < quantidadeDeParcelas; i++){
+            if(i == 0){
+                Parcela parcela1 = new Parcela();
+                parcela1.setValorDaParcela(parcela.getValorDaParcela());
+                listaDeParcelas.add(parcela1);
+            }
+            if (i == 1){
+                Parcela parcela2 = new Parcela();
+                parcela2.setValorDaParcela(parcela.getValorDaParcela());
+                LocalDate dataDaSegundaParcela = parcela2.getDataDeVencimento().plusDays(30);
+                parcela2.setDataDeVencimento(dataDaSegundaParcela);
+                listaDeParcelas.add(parcela2);
+            } else if (i == 2) {
+                Parcela parcela3 = new Parcela();
+                parcela3.setValorDaParcela(parcela.getValorDaParcela());
+                LocalDate dataDaTerceiraParcela = parcela3.getDataDeVencimento().plusDays(60);
+                parcela3.setDataDeVencimento(dataDaTerceiraParcela);
+                listaDeParcelas.add(parcela3);
+            } else if (i == 3) {
+                Parcela parcela4 = new Parcela();
+                parcela4.setValorDaParcela(parcela.getValorDaParcela());
+                LocalDate dataDaQuartaParcela = parcela4.getDataDeVencimento().plusDays(90);
+                parcela4.setDataDeVencimento(dataDaQuartaParcela);
+                listaDeParcelas.add(parcela4);
+            }
+        }
+        return listaDeParcelas;
+    }
+
+    private boolean caixaDeTextoEhVaziaTelaDeCadastro(){
+        return caixaDeTextoNomeCliente.getText().isBlank() || caixaDeTextoTelefone.getText().isBlank() ||
+                caixaDeTextoPlacaCad.getText().isBlank() || caixaDeTextoEmplacamentoCad.getText().isBlank() ||
+                caixaDeTextoValorEntradaCad.getText().isBlank() || caixaDeTextoValorTotalCad.getText().isBlank() ||
+                caixaDeTextoValorParcelaCad.getText().isBlank();
     }
 
     private void salvarCliente(){
@@ -280,85 +234,126 @@ public class SistemaEmplacamentoTela extends JFrame {
         seletorDeParcela.setSelectedIndex(0);
     }
 
-    private Cliente criaObjetoCliente(){
-        String nome = caixaDeTextoNomeCliente.getText();
-        System.out.println(nome);
-        String telefone = caixaDeTextoTelefone.getText();
-        System.out.println(telefone);
-        String blocoDeAnotacao = campoDeAnotacao.getText();
-        System.out.println(blocoDeAnotacao);
-
-        InfoEmplacamento emplacamento = criaObjetoInfoEmplacamento();
-
-        return new Cliente(nome,telefone,blocoDeAnotacao,emplacamento);
+    private void retornaTodosOsClientesParaATabela(){
+        ArrayList<Cliente> listaDeClientes = registroClientes.retornarTodosOsClientes();
+        ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+        tabelaDeClientes.setModel(modeloDaTabela);
+        tabelaDeClientes.setAutoCreateRowSorter(true);
     }
 
-    private InfoEmplacamento criaObjetoInfoEmplacamento(){
-        String nomeDaPlaca = caixaDeTextoPlacaCad.getText();
-        double valorDoEmplacamento = Double.parseDouble(caixaDeTextoEmplacamentoCad.getText());
-        double valorDeEntrada = Double.parseDouble(caixaDeTextoValorEntradaCad.getText());
-        int quantidadeDeParcelas = seletorParcelaCad.getSelectedIndex() + 1;
-
-        InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,valorDoEmplacamento,valorDeEntrada,quantidadeDeParcelas);
-
-        double valorTotal = Double.parseDouble(formatadorDeNumeros(emplacamento.calculaValorTotal()));
-
-        emplacamento.setValorTotal(valorTotal);
-
-        Parcela parcela = new Parcela();
-        parcela.setValorDaParcela(emplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada));
-
-        ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas,parcela);
-
-        emplacamento.setListaDeparcelas(listaDeParcelas);
-
-        return emplacamento;
+    public void eventoBotaoDeFazerCadastro(){
+        botaoDeFazerCadastro.addActionListener(e -> {
+            if (caixaDeTextoEhVaziaTelaDeSimulacao()){
+                textoDeAviso.setText("Preencha todos os campos!");
+            } else{
+                pegarDadosDaTelaDeSimulacaoParaAtelaCadastro();
+            }
+        });
     }
 
-    private ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
-        ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
-        for (int i = 0; i < quantidadeDeParcelas; i++){
-            if(i == 0){
-                Parcela parcela1 = new Parcela();
-                parcela1.setValorDaParcela(parcela.getValorDaParcela());
-               listaDeParcelas.add(parcela1);
+    private void pegarDadosDaTelaDeSimulacaoParaAtelaCadastro(){
+        telaPrincipal.setSelectedIndex(1);
+        caixaDeTextoPlacaCad.setText(caixaDeTextoPlaca.getText());
+        caixaDeTextoEmplacamentoCad.setText(caixaDeTextoValorEmplacamento.getText());
+        caixaDeTextoValorEntradaCad.setText(caixaDeTextoValorEntrada.getText());
+        caixaDeTextoValorTotalCad.setText(caixaDeTextoValorTotal.getText());
+        caixaDeTextoValorParcelaCad.setText(caixaDeTextoValorParcela.getText());
+        seletorParcelaCad.setSelectedIndex(seletorDeParcela.getSelectedIndex());
+    }
+
+    public void eventoDoBotaoDeVoltarDaTelaDeCadastro(){
+        botaoDeVoltarCad.addActionListener(e -> {
+            telaPrincipal.setSelectedIndex(0);
+        });
+    }
+
+    private void eventoDoBotaoDeBuscar(){
+        botaoDeBuscar.addActionListener(e -> {
+            if (todasAsCaixasDeSelecaoMarcadas() || caixaDeNomeClienteENomePlacaMarcadas()
+                    || caixaDeNomeClienteEParcelasMarcadas() || caixaDeNomePlacaEParcelasMarcadas()){
+                textoDeAvisoConsul.setText("Selecione apenas UM filtro de pesquisa!");
             }
-            if (i == 1){
-                Parcela parcela2 = new Parcela();
-                parcela2.setValorDaParcela(parcela.getValorDaParcela());
-                LocalDate dataDaSegundaParcela = parcela2.getDataDeVencimento().plusDays(30);
-                parcela2.setDataDeVencimento(dataDaSegundaParcela);
-                listaDeParcelas.add(parcela2);
-            } else if (i == 2) {
-                Parcela parcela3 = new Parcela();
-                parcela3.setValorDaParcela(parcela.getValorDaParcela());
-                LocalDate dataDaTerceiraParcela = parcela3.getDataDeVencimento().plusDays(60);
-                parcela3.setDataDeVencimento(dataDaTerceiraParcela);
-                listaDeParcelas.add(parcela3);
-            } else if (i == 3) {
-                Parcela parcela4 = new Parcela();
-                parcela4.setValorDaParcela(parcela.getValorDaParcela());
-                LocalDate dataDaQuartaParcela = parcela4.getDataDeVencimento().plusDays(90);
-                parcela4.setDataDeVencimento(dataDaQuartaParcela);
-                listaDeParcelas.add(parcela4);
+            else if (campoDePesquisaEhVazio()) {
+                textoDeAvisoConsul.setText("Insira o Nome do Cliente ou da Placa que deseja buscar");
             }
+            else if(caixaDeSelecaoPorNomeDoCliente.isSelected()){
+                String nome = campoDeTextoBuscar.getText();
+                retornaOsClientesComNomePesquisadoParaATabela(nome);
+                textoDeAvisoConsul.setText("");
+            }
+            else if (caixaDeSelecaoPorNomeDaPlaca.isSelected()) {
+                String nomePlaca = campoDeTextoBuscar.getText();
+                retornaOsClientesComNomeDaPlacaPesquisadoParaATabela(nomePlaca);
+                textoDeAvisoConsul.setText("");
+            }
+            else if(caixaDeSelecaoPorParcelasVencidas.isSelected()){
+                retornaOsClientesOPagamentoVencidoParaATabela();
+                textoDeAvisoConsul.setText("");
+            }
+            else {
+                retornaTodosOsClientesParaATabela();
+                textoDeAvisoConsul.setText("");
+            }
+        });
+    }
+
+    private boolean todasAsCaixasDeSelecaoMarcadas(){
+        return caixaDeSelecaoPorNomeDoCliente.isSelected()
+                && caixaDeSelecaoPorNomeDaPlaca.isSelected()
+                && caixaDeSelecaoPorParcelasVencidas.isSelected();
+    }
+
+    private boolean caixaDeNomeClienteENomePlacaMarcadas(){
+        return caixaDeSelecaoPorNomeDoCliente.isSelected()
+                && caixaDeSelecaoPorNomeDaPlaca.isSelected();
+    }
+
+    private boolean caixaDeNomeClienteEParcelasMarcadas(){
+        return caixaDeSelecaoPorNomeDoCliente.isSelected()
+                && caixaDeSelecaoPorParcelasVencidas.isSelected();
+    }
+
+    private boolean caixaDeNomePlacaEParcelasMarcadas(){
+        return caixaDeSelecaoPorNomeDaPlaca.isSelected()
+                && caixaDeSelecaoPorParcelasVencidas.isSelected();
+    }
+
+    private boolean campoDePesquisaEhVazio(){
+        return (caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isBlank()) ||
+                caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isBlank();
+    }
+
+    private void retornaOsClientesComNomePesquisadoParaATabela(String nome){
+        try {
+            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarListaDeClientesPeloNome(nome);
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }catch (ClienteNaoExisteException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
         }
-        return listaDeParcelas;
     }
 
-    private String formatadorDeNumeros(Double numero){
-        return new DecimalFormat("##.##").format(numero).replace(",",".");
+    private void retornaOsClientesComNomeDaPlacaPesquisadoParaATabela(String nomePlaca){
+        try {
+            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarPelaPlaca(nomePlaca);
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }catch (ClienteNaoExisteException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
     }
 
-    private boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
-        return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank() || caixaDeTextoValorEntrada.getText().isBlank();
-    }
-
-    private boolean caixaDeTextoEhVaziaTelaDeCadastro(){
-        return caixaDeTextoNomeCliente.getText().isBlank() || caixaDeTextoTelefone.getText().isBlank() ||
-                caixaDeTextoPlacaCad.getText().isBlank() || caixaDeTextoEmplacamentoCad.getText().isBlank() ||
-                caixaDeTextoValorEntradaCad.getText().isBlank() || caixaDeTextoValorTotalCad.getText().isBlank() ||
-                caixaDeTextoValorParcelaCad.getText().isBlank();
+    private void retornaOsClientesOPagamentoVencidoParaATabela(){
+        try {
+            ArrayList<Cliente> listaDeClientes = registroClientes.pesquisarClientesComPagamentoVencido();
+            ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
+            tabelaDeClientes.setModel(modeloDaTabela);
+            tabelaDeClientes.setAutoCreateRowSorter(true);
+        }catch (ClienteNaoExisteException e){
+            JOptionPane.showMessageDialog(this,e.getMessage());
+        }
     }
 
     private void avisoAoFecharJanela(){

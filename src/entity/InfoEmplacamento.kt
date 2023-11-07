@@ -4,10 +4,10 @@ import exceptions.ValorDeEntradaInvalidoException
 import java.io.Serializable
 
 data class InfoEmplacamento(
-    val nomeDaPlaca: String = "",
-    val valorDoEmplacamento: Double = 0.0,
-    val valorDeEntrada: Double = 0.0,
-    val quantidadeDeParcelas: Int = 0,
+    var nomeDaPlaca: String = "",
+    var valorDoEmplacamento: Double = 0.0,
+    var valorDeEntrada: Double = 0.0,
+    var quantidadeDeParcelas: Int = 0,
     ) : Serializable {
 
     var valorTotal: Double = calculaValorTotal()
@@ -17,7 +17,7 @@ data class InfoEmplacamento(
     fun retornaListaDeParcelasVencidas() : ArrayList<Parcela>{
         val listaDeParcelasVencidas = ArrayList<Parcela>()
         for (p in listaDeparcelas){
-            if (p.validaDataVencimento()){
+            if (p.parcelaEstaAtrasada()){
                 listaDeParcelasVencidas.add(p)
             }
         }
@@ -25,15 +25,6 @@ data class InfoEmplacamento(
     }
     fun adicionaParcela(parcela : Parcela){
         listaDeparcelas.add(parcela)
-    }
-    fun parcelasEstaoQuitadas() : Boolean{
-         var numeroDeParcelasPagas = 0
-         for (parcela in listaDeparcelas){
-             if (parcela.pagamentoAtrasado){
-                 numeroDeParcelasPagas += 1
-             }
-         }
-        return numeroDeParcelasPagas == listaDeparcelas.size
     }
 
     fun calculaValorTotal() : Double {
