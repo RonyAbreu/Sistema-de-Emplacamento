@@ -26,7 +26,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
             }
         }
         if (listaDeClientesRetornados.isEmpty()){
-            throw ClienteNaoExisteException("Não existe clientes com esse nome.")
+            throw ClienteNaoExisteException("Não existem Clientes com esse nome.")
         }
 
         return listaDeClientesRetornados
@@ -40,7 +40,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         }
 
         if (listaDeClientesRetornados.isEmpty()){
-            throw ClienteNaoExisteException("Não existe Clientes com essa Placa!")
+            throw ClienteNaoExisteException("Não existem Clientes com essa Placa!")
         }
         return listaDeClientesRetornados
 
@@ -61,7 +61,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
 
     fun deletarClientePeloNome(nome: String) {
         if(!clienteJaExiste(nome)){
-            throw ClienteNaoExisteException("Não existe Cliente com esse Nome.")
+            throw ClienteNaoExisteException("Não existem Cliente com esse Nome.")
         }
         for (cliente in listaDeClientes){
             if (cliente.nome == nome ){
