@@ -47,8 +47,10 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JCheckBox caixaDeSelecaoPorParcelasVencidas;
     private JTable tabelaDeClientes;
     private JLabel textoDeAvisoConsul;
-    private JButton parcelasButton;
-    private JButton editarButton;
+    private JButton botaoDeParcelas;
+    private JButton botaoDeEditar;
+    private JButton botaoDeAnotacoes;
+    private JButton botaoDeRemover;
     private RegistroClientes registroClientes;
     private BancoDeDados bancoDeDados = new BancoDeDados();
 
@@ -62,10 +64,11 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoDoBotaoDeBuscar();
         avisoAoFecharJanela();
         retornaTodosOsClientesParaATabela();
+        eventoDoBotaoDeAnotacoes();
     }
 
     private void configuraTela(){
-        setTitle("Emplacamentos do John");
+        setTitle("Emplacamentos");
         setContentPane(painelPrincipal);
         setSize(1024, 768);
         setLocation(450,100);
@@ -365,6 +368,27 @@ public class SistemaEmplacamentoTela extends JFrame {
                     System.exit(0);
                 }
             }
+        });
+    }
+
+    public void eventoDoBotaoDeRemover(){
+        botaoDeRemover.addActionListener(e -> {
+
+        });
+    }
+    public void eventoDoBotaoDeEditar(){
+        botaoDeEditar.addActionListener(e -> {
+
+        });
+    }
+    public void eventoDoBotaoDeParcelas(){
+        botaoDeParcelas.addActionListener(e -> {
+
+        });
+    }
+    public void eventoDoBotaoDeAnotacoes(){
+        botaoDeAnotacoes.addActionListener(e -> {
+            TelaDeAnotacao telaDeAnotacao = new TelaDeAnotacao();
         });
     }
 }

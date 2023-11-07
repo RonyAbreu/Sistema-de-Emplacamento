@@ -75,4 +75,13 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         return listaDeClientes
     }
 
+    fun pegaAnotacaoDoClientePeloNome(nome : String) :String{
+        var anotacoes = ""
+        for (cliente in listaDeClientes){
+            if (cliente.nome == nome ){
+                anotacoes = cliente.blocoDeAnotacao
+            }
+        }
+        return anotacoes
+    }
 }
