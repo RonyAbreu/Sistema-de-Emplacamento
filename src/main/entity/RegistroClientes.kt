@@ -21,7 +21,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
     fun pesquisarListaDeClientesPeloNome(nome: String) : ArrayList<Cliente> {
         val listaDeClientesRetornados = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
-            if(cliente.nome.startsWith(nome)){
+            if(cliente.nome.startsWith(nome,true)){
                 listaDeClientesRetornados.add(cliente)
             }
         }
@@ -34,7 +34,7 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
     fun pesquisarPelaPlaca(nomePlaca: String) : ArrayList<Cliente>{
         val listaDeClientesRetornados = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
-            if(cliente.emplacamento.nomeDaPlaca == nomePlaca ){
+            if(cliente.emplacamento.nomeDaPlaca.equals(nomePlaca, true) ){
                 listaDeClientesRetornados.add(cliente)
             }
         }

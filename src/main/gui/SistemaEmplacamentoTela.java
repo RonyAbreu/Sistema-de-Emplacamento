@@ -282,6 +282,9 @@ public class SistemaEmplacamentoTela extends JFrame {
             else if (campoDePesquisaEhVazio()) {
                 textoDeAvisoConsul.setText("Insira o Nome do Cliente ou da Placa que deseja buscar");
             }
+            else if(campoDeSelecaoEhVazioEContemTexto()){
+                textoDeAvisoConsul.setText("Selecione o filtro de pesquisa!");
+            }
             else if(caixaDeSelecaoPorNomeDoCliente.isSelected()){
                 String nome = campoDeTextoBuscar.getText();
                 retornaOsClientesComNomePesquisadoParaATabela(nome);
@@ -327,6 +330,11 @@ public class SistemaEmplacamentoTela extends JFrame {
     private boolean campoDePesquisaEhVazio(){
         return (caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isBlank()) ||
                 caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isBlank();
+    }
+
+    private boolean campoDeSelecaoEhVazioEContemTexto(){
+        return (!caixaDeSelecaoPorNomeDoCliente.isSelected() && !campoDeTextoBuscar.getText().isEmpty() &&
+                !caixaDeSelecaoPorNomeDaPlaca.isSelected() && !campoDeTextoBuscar.getText().isBlank());
     }
 
     private void retornaOsClientesComNomePesquisadoParaATabela(String nome){
