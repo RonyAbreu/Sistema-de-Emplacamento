@@ -18,20 +18,18 @@ class RegistroClientesTest {
     fun cadastrarClientes() {
         val cliente1 = Cliente("Joao", "8888", "",
             emplacamento = InfoEmplacamento("placa", 300.0,
-                50.0,2)
-        )
+                50.0,2) )
 
         val cliente2 = Cliente("Rony", "3333", "",
             emplacamento = InfoEmplacamento("ronyboy", 500.0,
-                100.0,2)
-        )
+                100.0,2) )
 
         val registroClientes = RegistroClientes(ArrayList())
 
         registroClientes.cadastrarClientes(cliente1)
         registroClientes.cadastrarClientes(cliente2)
 
-        var primeiroClienteDaLista = registroClientes.retornarTodosOsClientes().get(0)
+        val primeiroClienteDaLista = registroClientes.retornarTodosOsClientes().get(0)
 
         assertEquals("Joao",primeiroClienteDaLista.nome)
         assertEquals("8888",primeiroClienteDaLista.telefone)
@@ -46,9 +44,7 @@ class RegistroClientesTest {
             "Joao", "8888", "",
             emplacamento = InfoEmplacamento(
                 "placa", 300.0,
-                50.0, 2
-            )
-        )
+                50.0, 2 ) )
 
         val registroClientes = RegistroClientes(ArrayList())
 
@@ -61,8 +57,8 @@ class RegistroClientesTest {
     fun pesquisarPelaPlaca() {
         val cliente = Cliente("Joao", "8888", "",
             emplacamento = InfoEmplacamento("placa", 300.0,
-                50.0,2)
-        )
+                50.0,2) )
+
         val registroClientes = RegistroClientes(ArrayList())
 
         registroClientes.cadastrarClientes(cliente)
