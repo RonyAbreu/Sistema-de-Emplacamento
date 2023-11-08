@@ -11,6 +11,7 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class SistemaEmplacamentoTela extends JFrame {
@@ -446,13 +447,111 @@ public class SistemaEmplacamentoTela extends JFrame {
                 JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja ver as Parcelas!");
             } else {
                 TelaDeParcelas telaDeParcelas = new TelaDeParcelas();
-
                 String nomeDoCliente = campoDeVizualizarNome.getText();
+                telaDeParcelas.getCampoDeTextoNomeClientePar().setText(nomeDoCliente);
+
                 ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeDoCliente);
+
+                adicionaValorEDataDasParcelasATelaDeParcelas(telaDeParcelas,listaDeParcelas);
             }
 
         });
     }
+
+    public void adicionaValorEDataDasParcelasATelaDeParcelas(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas){
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (listaDeParcelas.size() == 1){
+            incluiUmaParcela(telaDeParcelas,listaDeParcelas,formatador);
+        }
+        else if (listaDeParcelas.size() == 2){
+            incluiDuasParcela(telaDeParcelas,listaDeParcelas,formatador);
+        }
+        else if (listaDeParcelas.size() == 3){
+            incluiTresParcela(telaDeParcelas,listaDeParcelas,formatador);
+        }
+        else if (listaDeParcelas.size() == 4){
+            incluiQuatroParcela(telaDeParcelas,listaDeParcelas,formatador);
+        }
+    }
+
+    private void incluiUmaParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
+        Double valorDaParcela = listaDeParcelas.get(0).getValorDaParcela();
+        String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
+        LocalDate dataDaParcela = listaDeParcelas.get(0).getDataDeVencimento();
+        String dataFormatada = formatador.format(dataDaParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataFormatada);
+    }
+
+    private void incluiDuasParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
+        Double valorDaPrimeiraParcela = listaDeParcelas.get(0).getValorDaParcela();
+        String valorDaPrimeiraParcelaFormatado = formatadorDeNumeros(valorDaPrimeiraParcela);
+        LocalDate dataDaPrimeiraParcela = listaDeParcelas.get(0).getDataDeVencimento();
+        String dataDaPrimeiraParcelaFormatada = formatador.format(dataDaPrimeiraParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaPrimeiraParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataDaPrimeiraParcelaFormatada);
+
+        Double valorDaSegundaParcela = listaDeParcelas.get(1).getValorDaParcela();
+        String valorDaSegundaParcelaFormatado = formatadorDeNumeros(valorDaSegundaParcela);
+        LocalDate dataDaSegundaParcela = listaDeParcelas.get(1).getDataDeVencimento();
+        String dataDeSegundaParcelaFormatada = formatador.format(dataDaSegundaParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar2().setText(valorDaSegundaParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar2().setText(dataDeSegundaParcelaFormatada);
+    }
+
+    private void incluiTresParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
+        Double valorDaPrimeiraParcela = listaDeParcelas.get(0).getValorDaParcela();
+        String valorDaPrimeiraParcelaFormatado = formatadorDeNumeros(valorDaPrimeiraParcela);
+        LocalDate dataDaPrimeiraParcela = listaDeParcelas.get(0).getDataDeVencimento();
+        String dataDaPrimeiraParcelaFormatada = formatador.format(dataDaPrimeiraParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaPrimeiraParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataDaPrimeiraParcelaFormatada);
+
+        Double valorDaSegundaParcela = listaDeParcelas.get(1).getValorDaParcela();
+        String valorDaSegundaParcelaFormatado = formatadorDeNumeros(valorDaSegundaParcela);
+        LocalDate dataDaSegundaParcela = listaDeParcelas.get(1).getDataDeVencimento();
+        String dataDeSegundaParcelaFormatada = formatador.format(dataDaSegundaParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar2().setText(valorDaSegundaParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar2().setText(dataDeSegundaParcelaFormatada);
+
+        Double valorDaTerceiraParcela = listaDeParcelas.get(2).getValorDaParcela();
+        String valorDaTerceiraParcelaFormatado = formatadorDeNumeros(valorDaTerceiraParcela);
+        LocalDate dataDaTerceiraParcela = listaDeParcelas.get(2).getDataDeVencimento();
+        String dataDaTerceiraParcelaFormatada = formatador.format(dataDaTerceiraParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar3().setText(valorDaTerceiraParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar3().setText(dataDaTerceiraParcelaFormatada);
+    }
+
+    private void incluiQuatroParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
+        Double valorDaPrimeiraParcela = listaDeParcelas.get(0).getValorDaParcela();
+        String valorDaPrimeiraParcelaFormatado = formatadorDeNumeros(valorDaPrimeiraParcela);
+        LocalDate dataDaPrimeiraParcela = listaDeParcelas.get(0).getDataDeVencimento();
+        String dataDaPrimeiraParcelaFormatada = formatador.format(dataDaPrimeiraParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaPrimeiraParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataDaPrimeiraParcelaFormatada);
+
+        Double valorDaSegundaParcela = listaDeParcelas.get(1).getValorDaParcela();
+        String valorDaSegundaParcelaFormatado = formatadorDeNumeros(valorDaSegundaParcela);
+        LocalDate dataDaSegundaParcela = listaDeParcelas.get(1).getDataDeVencimento();
+        String dataDeSegundaParcelaFormatada = formatador.format(dataDaSegundaParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar2().setText(valorDaSegundaParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar2().setText(dataDeSegundaParcelaFormatada);
+
+        Double valorDaTerceiraParcela = listaDeParcelas.get(2).getValorDaParcela();
+        String valorDaTerceiraParcelaFormatado = formatadorDeNumeros(valorDaTerceiraParcela);
+        LocalDate dataDaTerceiraParcela = listaDeParcelas.get(2).getDataDeVencimento();
+        String dataDaTerceiraParcelaFormatada = formatador.format(dataDaTerceiraParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar3().setText(valorDaTerceiraParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar3().setText(dataDaTerceiraParcelaFormatada);
+
+        Double valorDaQuartaParcela = listaDeParcelas.get(3).getValorDaParcela();
+        String valorDaQuartaParcelaFormatado = formatadorDeNumeros(valorDaQuartaParcela);
+        LocalDate dataDaQuartaParcela = listaDeParcelas.get(3).getDataDeVencimento();
+        String dataDaQuartaParcelaFormatada = formatador.format(dataDaQuartaParcela);
+        telaDeParcelas.getCaixaDeTextoValorPar4().setText(valorDaQuartaParcelaFormatado);
+        telaDeParcelas.getCaixaDeTextoDataPar4().setText(dataDaQuartaParcelaFormatada);
+    }
+
     public void eventoDoBotaoDeAnotacoes(){
         botaoDeAnotacoes.addActionListener(e -> {
             if (campoDeVizualizarNomeEhVazio()){
