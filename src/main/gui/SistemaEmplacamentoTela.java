@@ -52,6 +52,7 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JButton botaoDeAnotacoes;
     private JButton botaoDeRemover;
     private JTextField campoDeVizualizarNome;
+    private JButton atualizarButton;
     private RegistroClientes registroClientes;
     private BancoDeDados bancoDeDados = new BancoDeDados();
 
@@ -70,6 +71,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoDoBotaoDeAnotacoes();
         eventoDoBotaoDeEditar();
         eventoDoMouseAoClicar();
+        eventoDoBotaoDeAtualizar();
     }
 
     private void configuraTela(){
@@ -303,6 +305,7 @@ public class SistemaEmplacamentoTela extends JFrame {
             else {
                 retornaTodosOsClientesParaATabela();
                 textoDeAvisoConsul.setText("");
+                campoDeVizualizarNome.setText("");
             }
         });
     }
@@ -400,6 +403,8 @@ public class SistemaEmplacamentoTela extends JFrame {
                     campoDeVizualizarNome.setText("");
 
                     retornaTodosOsClientesParaATabela();
+                } else {
+                    campoDeVizualizarNome.setText("");
                 }
             }
         });
@@ -440,7 +445,10 @@ public class SistemaEmplacamentoTela extends JFrame {
             if (campoDeVizualizarNomeEhVazio()){
                 JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja ver as Parcelas!");
             } else {
-                JOptionPane.showMessageDialog(null, "JA JA FICA PRONTO");
+                TelaDeParcelas telaDeParcelas = new TelaDeParcelas();
+
+                String nomeDoCliente = campoDeVizualizarNome.getText();
+                ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeDoCliente);
             }
 
         });
@@ -457,6 +465,8 @@ public class SistemaEmplacamentoTela extends JFrame {
 
                 telaDeAnotacao.setTextoCampodeAnotacoes(anotacoesDoCliente);
                 telaDeAnotacao.setTextoCampoDeNomeCliente(nomeDoCliente);
+
+                campoDeVizualizarNome.setText("");
             }
         });
     }
@@ -474,5 +484,12 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     private boolean campoDeVizualizarNomeEhVazio(){
         return campoDeVizualizarNome.getText().isBlank();
+    }
+
+    public void eventoDoBotaoDeAtualizar(){
+        atualizarButton.addActionListener(e -> {
+            retornaTodosOsClientesParaATabela();
+            campoDeVizualizarNome.setText("");
+        });
     }
 }

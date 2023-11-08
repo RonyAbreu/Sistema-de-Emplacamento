@@ -43,6 +43,7 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Valor"/>
             </properties>
           </component>
@@ -52,27 +53,34 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Data"/>
             </properties>
           </component>
-          <component id="15b85" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="15b85" class="javax.swing.JTextField" binding="caixaDeTextoValorPar1">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
-          <component id="6d48d" class="javax.swing.JTextField" default-binding="true">
+          <component id="6d48d" class="javax.swing.JTextField" binding="caixaDeTextoDataPar1">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
           <component id="a5121" class="javax.swing.JLabel">
@@ -81,10 +89,11 @@
             </constraints>
             <properties>
               <font name="Arial Black" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Parcela 1°"/>
             </properties>
           </component>
-          <component id="ba93e" class="javax.swing.JButton" binding="pagarButton" default-binding="true">
+          <component id="ba93e" class="javax.swing.JButton" binding="botaoDePagarPar1">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -143,6 +152,7 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Valor"/>
             </properties>
           </component>
@@ -152,27 +162,34 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Data"/>
             </properties>
           </component>
-          <component id="5290a" class="javax.swing.JTextField" default-binding="true">
+          <component id="5290a" class="javax.swing.JTextField" binding="caixaDeTextoValorPar2">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
-          <component id="91e5b" class="javax.swing.JTextField" default-binding="true">
+          <component id="91e5b" class="javax.swing.JTextField" binding="caixaDeTextoDataPar2">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
           <component id="164d7" class="javax.swing.JLabel">
@@ -181,10 +198,11 @@
             </constraints>
             <properties>
               <font name="Arial Black" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Parcela 2°"/>
             </properties>
           </component>
-          <component id="fb06b" class="javax.swing.JButton" default-binding="true">
+          <component id="fb06b" class="javax.swing.JButton" binding="botaoDePagarPar2">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -211,6 +229,7 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Valor"/>
             </properties>
           </component>
@@ -220,27 +239,34 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Data"/>
             </properties>
           </component>
-          <component id="be708" class="javax.swing.JTextField" default-binding="true">
+          <component id="be708" class="javax.swing.JTextField" binding="caixaDeTextoValorPar3">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
-          <component id="337ad" class="javax.swing.JTextField" default-binding="true">
+          <component id="337ad" class="javax.swing.JTextField" binding="caixaDeTextoDataPar3">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
           <component id="262ab" class="javax.swing.JLabel">
@@ -249,10 +275,11 @@
             </constraints>
             <properties>
               <font name="Arial Black" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Parcela 3°"/>
             </properties>
           </component>
-          <component id="7776c" class="javax.swing.JButton" default-binding="true">
+          <component id="7776c" class="javax.swing.JButton" binding="botaoDePagarPar3">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -279,6 +306,7 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Valor"/>
             </properties>
           </component>
@@ -288,27 +316,34 @@
             </constraints>
             <properties>
               <font name="Arial" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Data"/>
             </properties>
           </component>
-          <component id="e7404" class="javax.swing.JTextField" default-binding="true">
+          <component id="e7404" class="javax.swing.JTextField" binding="caixaDeTextoValorPar4">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
-          <component id="79a7d" class="javax.swing.JTextField" default-binding="true">
+          <component id="79a7d" class="javax.swing.JTextField" binding="caixaDeTextoDataPar4">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="25"/>
               </grid>
             </constraints>
             <properties>
+              <background color="-7077864"/>
+              <editable value="true"/>
               <font name="Arial" size="16" style="1"/>
+              <foreground color="-1"/>
             </properties>
           </component>
           <component id="9ff86" class="javax.swing.JLabel">
@@ -317,10 +352,11 @@
             </constraints>
             <properties>
               <font name="Arial Black" size="14" style="1"/>
+              <foreground color="-7077864"/>
               <text value="Parcela 4°"/>
             </properties>
           </component>
-          <component id="da049" class="javax.swing.JButton" default-binding="true">
+          <component id="da049" class="javax.swing.JButton" binding="botaoDePagarPar4">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -333,7 +369,7 @@
           </component>
         </children>
       </grid>
-      <component id="ae330" class="javax.swing.JButton" binding="salvarButton" default-binding="true">
+      <component id="ae330" class="javax.swing.JButton" binding="botaoDeSalvar">
         <constraints>
           <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>

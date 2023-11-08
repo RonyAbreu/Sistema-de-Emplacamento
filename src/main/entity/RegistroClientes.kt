@@ -92,4 +92,14 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         }
         throw ClienteNaoExisteException("Não existem Cliente com esse Nome.")
     }
+
+    fun retornarParcelasDoClientePeloNome(nome : String) : ArrayList<Parcela>{
+        val listaDeParcelas = ArrayList<Parcela>()
+
+        val cliente = retornaClientePeloNome(nome);
+
+        listaDeParcelas.addAll(cliente.emplacamento.listaDeparcelas)
+
+        return listaDeParcelas;
+    }
 }
