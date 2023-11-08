@@ -435,6 +435,8 @@ public class SistemaEmplacamentoTela extends JFrame {
 
                 telaDeEditar.preencheCamposComDadosDoCliente(nomeAtual, telefoneAtual, placaAtual, anotacaoAtual);
 
+                telaDeEditar.eventoDoBotaoDeSalvar(clienteRetornado);
+
                 campoDeVizualizarNome.setText("");
             }
 

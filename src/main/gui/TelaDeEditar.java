@@ -22,7 +22,6 @@ public class TelaDeEditar extends JFrame{
     public TelaDeEditar(RegistroClientes registroClientes){
         this.registroClientes = registroClientes;
         configuraTela();
-        eventoDoBotaoDeSalvar();
     }
 
     private void configuraTela(){
@@ -34,12 +33,8 @@ public class TelaDeEditar extends JFrame{
         setResizable(true);
     }
 
-    public void eventoDoBotaoDeSalvar(){
+    public void eventoDoBotaoDeSalvar(Cliente clienteRetornado){
         botaoDeSalvar.addActionListener(e -> {
-            String nomeCliente = caixaDeTextoNomeClienteEd.getText();
-
-            Cliente clienteRetornado = registroClientes.retornaClientePeloNome(nomeCliente);
-
             String novoNome = caixaDeTextoNomeClienteEd.getText();
             String novoTelefone = caixaDeTextoTelefoneEd.getText();
             String novaPlaca = caixaDeTextoPlacaEd.getText();
