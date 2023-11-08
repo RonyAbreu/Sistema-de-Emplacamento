@@ -424,7 +424,7 @@ public class SistemaEmplacamentoTela extends JFrame {
             if (campoDeVizualizarNomeEhVazio()){
                 JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja Editar!");
             } else {
-                TelaDeEditar telaDeEditar = new TelaDeEditar();
+                TelaDeEditar telaDeEditar = new TelaDeEditar(registroClientes);
                 String nomeDoCliente = campoDeVizualizarNome.getText();
                 Cliente clienteRetornado = registroClientes.retornaClientePeloNome(nomeDoCliente);
 
@@ -434,8 +434,6 @@ public class SistemaEmplacamentoTela extends JFrame {
                 String anotacaoAtual = clienteRetornado.getBlocoDeAnotacao();
 
                 telaDeEditar.preencheCamposComDadosDoCliente(nomeAtual, telefoneAtual, placaAtual, anotacaoAtual);
-
-                telaDeEditar.eventoDoBotaoDeSalvar(registroClientes, clienteRetornado);
 
                 campoDeVizualizarNome.setText("");
             }
@@ -455,22 +453,33 @@ public class SistemaEmplacamentoTela extends JFrame {
 
                 adicionaValorEDataDasParcelasATelaDeParcelas(telaDeParcelas,listaDeParcelas);
 
-                if (!listaDeParcelas.get(0).getPagamentoAtrasado()){
-                    telaDeParcelas.alteraCorDaPrimeiraParcelaParaVerde();
-                }
-                if (!listaDeParcelas.get(1).getPagamentoAtrasado()) {
-                    telaDeParcelas.alteraCorDaSegundaParcelaParaVerde();
-                }
-                if (!listaDeParcelas.get(2).getPagamentoAtrasado()){
-                    telaDeParcelas.alteraCorDaTerceiraParcelaParaVerde();
-                }
-                if (!listaDeParcelas.get(3).getPagamentoAtrasado()){
-                    telaDeParcelas.alteraCorDaQuartaParcelaParaVerde();
-                }
+                verificaPagamentoDaParcelaEAlteraCor(telaDeParcelas, listaDeParcelas);
+
+                telaDeParcelas.verificaSeExisteParcela();
             }
 
         });
     }
+
+    private void verificaPagamentoDaParcelaEAlteraCor(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas){
+        try{
+            if (!listaDeParcelas.get(0).getPagamentoAtrasado()){
+                telaDeParcelas.alteraCorDaPrimeiraParcelaParaVerde();
+            }
+            if (!listaDeParcelas.get(1).getPagamentoAtrasado()) {
+                telaDeParcelas.alteraCorDaSegundaParcelaParaVerde();
+            }
+            if (!listaDeParcelas.get(2).getPagamentoAtrasado()){
+                telaDeParcelas.alteraCorDaTerceiraParcelaParaVerde();
+            }
+            if (!listaDeParcelas.get(3).getPagamentoAtrasado()){
+                telaDeParcelas.alteraCorDaQuartaParcelaParaVerde();
+            }
+        }catch (Exception ignored){
+
+        }
+    }
+
 
     public void adicionaValorEDataDasParcelasATelaDeParcelas(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas){
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");

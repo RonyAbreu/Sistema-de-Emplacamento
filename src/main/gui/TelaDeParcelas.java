@@ -127,11 +127,26 @@ public class TelaDeParcelas extends JFrame{
         });
     }
 
-    public void salvarDados(){
+    private void salvarDados(){
         try {
             bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Erro ao salvar os dados das Parcelas!");
+        }
+    }
+
+    public void verificaSeExisteParcela(){
+        if (caixaDeTextoValorPar1.getText().isBlank() && caixaDeTextoDataPar1.getText().isBlank()){
+            botaoDePagarPar1.setEnabled(false);
+        }
+        if (caixaDeTextoValorPar2.getText().isBlank() && caixaDeTextoDataPar2.getText().isBlank()){
+            botaoDePagarPar2.setEnabled(false);
+        }
+        if (caixaDeTextoValorPar3.getText().isBlank() && caixaDeTextoDataPar3.getText().isBlank()){
+            botaoDePagarPar3.setEnabled(false);
+        }
+        if (caixaDeTextoValorPar4.getText().isBlank() && caixaDeTextoDataPar4.getText().isBlank()){
+            botaoDePagarPar4.setEnabled(false);
         }
     }
 

@@ -17,9 +17,12 @@ public class TelaDeEditar extends JFrame{
     private JPanel painelPrincipal;
     private JButton botaoDeSalvar;
     private BancoDeDados bancoDeDados = new BancoDeDados();
+    private RegistroClientes registroClientes;
 
-    public TelaDeEditar(){
+    public TelaDeEditar(RegistroClientes registroClientes){
+        this.registroClientes = registroClientes;
         configuraTela();
+        eventoDoBotaoDeSalvar();
     }
 
     private void configuraTela(){
@@ -31,26 +34,36 @@ public class TelaDeEditar extends JFrame{
         setResizable(true);
     }
 
-    public void eventoDoBotaoDeSalvar(RegistroClientes registroClientes, Cliente clienteRetornado){
+    public void eventoDoBotaoDeSalvar(){
         botaoDeSalvar.addActionListener(e -> {
-            try {
-                String novoNome = caixaDeTextoNomeClienteEd.getText();
-                String novoTelefone = caixaDeTextoTelefoneEd.getText();
-                String novaPlaca = caixaDeTextoPlacaEd.getText();
-                String novasAnotacoes = campoDeAnotacaoEd.getText();
+            String nomeCliente = caixaDeTextoNomeClienteEd.getText();
 
-                clienteRetornado.setNome(novoNome);
-                clienteRetornado.setTelefone(novoTelefone);
-                clienteRetornado.getEmplacamento().setNomeDaPlaca(novaPlaca);
-                clienteRetornado.setBlocoDeAnotacao(novasAnotacoes);
+            Cliente clienteRetornado = registroClientes.retornaClientePeloNome(nomeCliente);
 
-                bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
-                JOptionPane.showMessageDialog(this, "Cliente Salvo com sucesso!");
-                this.dispose();
-            } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, "Erro ao salvar dados!");
-            }
+            String novoNome = caixaDeTextoNomeClienteEd.getText();
+            String novoTelefone = caixaDeTextoTelefoneEd.getText();
+            String novaPlaca = caixaDeTextoPlacaEd.getText();
+            String novasAnotacoes = campoDeAnotacaoEd.getText();
+
+            clienteRetornado.setNome(novoNome);
+            clienteRetornado.setTelefone(novoTelefone);
+            clienteRetornado.getEmplacamento().setNomeDaPlaca(novaPlaca);
+            clienteRetornado.setBlocoDeAnotacao(novasAnotacoes);
+
+            JOptionPane.showMessageDialog(this, "Cliente Salvo com sucesso!");
+
+            salvarDados();
+
+            this.dispose();
         });
+    }
+
+    private void salvarDados() {
+        try {
+            bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar dados do Cliente Editado!");
+        }
     }
 
     public void preencheCamposComDadosDoCliente(String nomeCliente, String telefone, String placa, String anotacao){
