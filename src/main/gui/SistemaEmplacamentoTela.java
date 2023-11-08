@@ -7,6 +7,7 @@ import main.exceptions.ValorDeEntradaInvalidoException;
 import main.gui.table.ModeloDaTabela;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -446,13 +447,26 @@ public class SistemaEmplacamentoTela extends JFrame {
             if (campoDeVizualizarNomeEhVazio()){
                 JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja ver as Parcelas!");
             } else {
-                TelaDeParcelas telaDeParcelas = new TelaDeParcelas();
+                TelaDeParcelas telaDeParcelas = new TelaDeParcelas(registroClientes);
                 String nomeDoCliente = campoDeVizualizarNome.getText();
                 telaDeParcelas.getCampoDeTextoNomeClientePar().setText(nomeDoCliente);
 
                 ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeDoCliente);
 
                 adicionaValorEDataDasParcelasATelaDeParcelas(telaDeParcelas,listaDeParcelas);
+
+                if (!listaDeParcelas.get(0).getPagamentoAtrasado()){
+                    telaDeParcelas.alteraCorDaPrimeiraParcelaParaVerde();
+                }
+                if (!listaDeParcelas.get(1).getPagamentoAtrasado()) {
+                    telaDeParcelas.alteraCorDaSegundaParcelaParaVerde();
+                }
+                if (!listaDeParcelas.get(2).getPagamentoAtrasado()){
+                    telaDeParcelas.alteraCorDaTerceiraParcelaParaVerde();
+                }
+                if (!listaDeParcelas.get(3).getPagamentoAtrasado()){
+                    telaDeParcelas.alteraCorDaQuartaParcelaParaVerde();
+                }
             }
 
         });
