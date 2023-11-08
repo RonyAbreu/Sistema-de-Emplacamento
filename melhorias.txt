@@ -1,2 +1,1 @@
-- ajustar o botão de editar para retornar a lista atualizada
 - adicionar funcionalidade ao pagar, para chegar quantos dias a parcela atrasou
