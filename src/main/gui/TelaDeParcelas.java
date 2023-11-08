@@ -127,12 +127,6 @@ public class TelaDeParcelas extends JFrame{
         });
     }
 
-    public void eventoDoBotaoDeSalvar(){
-        botaoDeSalvar.addActionListener(e -> {
-
-        });
-    }
-
     public void salvarDados(){
         try {
             bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());

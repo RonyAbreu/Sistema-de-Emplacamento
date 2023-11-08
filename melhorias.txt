@@ -1,0 +1,3 @@
+- ajustar o botão de editar para retornar a lista atualizada
+- ajustar tela de parcelas para não lançar exceção
+- adicionar funcionalidade ao pagar, para chegar quantos dias a parcela atrasou
