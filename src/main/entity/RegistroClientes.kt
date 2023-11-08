@@ -17,7 +17,6 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
         listaDeClientes.add(cliente)
     }
 
-
     fun pesquisarListaDeClientesPeloNome(nome: String) : ArrayList<Cliente> {
         val listaDeClientesRetornados = ArrayList<Cliente>()
         for (cliente in listaDeClientes){
@@ -83,5 +82,14 @@ data class RegistroClientes ( val listaDeClientes : ArrayList<Cliente>) {
             }
         }
         return anotacoes
+    }
+
+    fun retornaClientePeloNome(nome: String) : Cliente{
+        for (cliente in listaDeClientes){
+            if (cliente.nome.equals(nome,true)){
+                return cliente;
+            }
+        }
+        throw ClienteNaoExisteException("Não existem Cliente com esse Nome.")
     }
 }

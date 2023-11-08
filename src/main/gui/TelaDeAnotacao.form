@@ -25,6 +25,7 @@
         </constraints>
         <properties>
           <editable value="false"/>
+          <font name="Arial Black" size="18" style="1"/>
         </properties>
       </component>
       <component id="f1565" class="javax.swing.JLabel">
@@ -44,6 +45,7 @@
         </constraints>
         <properties>
           <editable value="false"/>
+          <font name="Arial Black" size="20" style="1"/>
         </properties>
       </component>
       <component id="6b491" class="javax.swing.JToolBar$Separator">

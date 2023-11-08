@@ -19,4 +19,20 @@ public class TelaDeAnotacao extends JFrame {
         setVisible(true);
         setResizable(true);
     }
+
+    public JTextPane getCampoDeAnotacoesDoCliente() {
+        return campoDeAnotacoesDoCliente;
+    }
+
+    public JTextField getCampoDeTextoNomeCliente() {
+        return campoDeTextoNomeCliente;
+    }
+
+    public void setTextoCampodeAnotacoes(String textoCampodeAnotacoes){
+        this.campoDeAnotacoesDoCliente.setText(textoCampodeAnotacoes);
+    }
+
+    public void setTextoCampoDeNomeCliente(String nomeCliente){
+        this.campoDeTextoNomeCliente.setText(nomeCliente);
+    }
 }

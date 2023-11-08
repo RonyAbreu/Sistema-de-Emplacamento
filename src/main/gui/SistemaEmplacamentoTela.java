@@ -51,6 +51,7 @@ public class SistemaEmplacamentoTela extends JFrame {
     private JButton botaoDeEditar;
     private JButton botaoDeAnotacoes;
     private JButton botaoDeRemover;
+    private JTextField campoDeVizualizarNome;
     private RegistroClientes registroClientes;
     private BancoDeDados bancoDeDados = new BancoDeDados();
 
@@ -68,6 +69,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoDoBotaoDeParcelas();
         eventoDoBotaoDeAnotacoes();
         eventoDoBotaoDeEditar();
+        eventoDoMouseAoClicar();
     }
 
     private void configuraTela(){
@@ -206,7 +208,6 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     private void salvarCliente(){
         try {
-            bancoDeDados = new BancoDeDados();
             bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
 
             JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
@@ -384,22 +385,94 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoDoBotaoDeRemover(){
         botaoDeRemover.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "JA JA FICA PRONTO");
+            if (campoDeVizualizarNomeEhVazio()){
+                JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja Remover!");
+            } else {
+                String nomeDoCliente = campoDeVizualizarNome.getText();
+
+                int opcao = JOptionPane.showConfirmDialog(this, "Deseja Remover o Cliente: "+ nomeDoCliente + "?","Remover",JOptionPane.YES_NO_OPTION);
+                if (opcao == JOptionPane.YES_OPTION){
+                    registroClientes.deletarClientePeloNome(nomeDoCliente);
+
+                    persistirDados();
+
+                    JOptionPane.showMessageDialog(this, "Cliente Removido com Sucesso!");
+                    campoDeVizualizarNome.setText("");
+
+                    retornaTodosOsClientesParaATabela();
+                }
+            }
         });
+    }
+
+    public void persistirDados(){
+        try {
+            bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,"Erro ao persistir os dados!");
+        }
     }
     public void eventoDoBotaoDeEditar(){
         botaoDeEditar.addActionListener(e -> {
-            TelaDeEditar telaDeEditar = new TelaDeEditar();
+            if (campoDeVizualizarNomeEhVazio()){
+                JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja Editar!");
+            } else {
+                TelaDeEditar telaDeEditar = new TelaDeEditar();
+                String nomeDoCliente = campoDeVizualizarNome.getText();
+                Cliente clienteRetornado = registroClientes.retornaClientePeloNome(nomeDoCliente);
+
+                String nomeAtual = clienteRetornado.getNome();
+                String telefoneAtual = clienteRetornado.getTelefone();
+                String placaAtual = clienteRetornado.getEmplacamento().getNomeDaPlaca();
+                String anotacaoAtual = clienteRetornado.getBlocoDeAnotacao();
+
+                telaDeEditar.preencheCamposComDadosDoCliente(nomeAtual, telefoneAtual, placaAtual, anotacaoAtual);
+
+                telaDeEditar.eventoDoBotaoDeSalvar(registroClientes, clienteRetornado);
+
+                campoDeVizualizarNome.setText("");
+            }
+
         });
     }
     public void eventoDoBotaoDeParcelas(){
         botaoDeParcelas.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "JA JA FICA PRONTO");
+            if (campoDeVizualizarNomeEhVazio()){
+                JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja ver as Parcelas!");
+            } else {
+                JOptionPane.showMessageDialog(null, "JA JA FICA PRONTO");
+            }
+
         });
     }
     public void eventoDoBotaoDeAnotacoes(){
         botaoDeAnotacoes.addActionListener(e -> {
-            TelaDeAnotacao telaDeAnotacao = new TelaDeAnotacao();
+            if (campoDeVizualizarNomeEhVazio()){
+                JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja ver as Anotações!");
+            } else {
+                TelaDeAnotacao telaDeAnotacao = new TelaDeAnotacao();
+                String nomeDoCliente = campoDeVizualizarNome.getText();
+
+                String anotacoesDoCliente = registroClientes.pegaAnotacaoDoClientePeloNome(nomeDoCliente);
+
+                telaDeAnotacao.setTextoCampodeAnotacoes(anotacoesDoCliente);
+                telaDeAnotacao.setTextoCampoDeNomeCliente(nomeDoCliente);
+            }
         });
+    }
+
+    public void eventoDoMouseAoClicar(){
+        tabelaDeClientes.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                var linhaClicada = tabelaDeClientes.getSelectedRow();
+                String nomeDoCliente = (String) tabelaDeClientes.getValueAt(linhaClicada,0);
+                campoDeVizualizarNome.setText(nomeDoCliente);
+            }
+        });
+    }
+
+    private boolean campoDeVizualizarNomeEhVazio(){
+        return campoDeVizualizarNome.getText().isBlank();
     }
 }
