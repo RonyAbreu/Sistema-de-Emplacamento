@@ -1,1 +1,0 @@
-- adicionar funcionalidade ao pagar, para chegar quantos dias a parcela atrasou

@@ -26,15 +26,26 @@ public class ModeloDaTabela extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        return switch (columnIndex){
-            case 0 -> listaDeClientes.get(rowIndex).getNome();
-            case 1 -> listaDeClientes.get(rowIndex).getTelefone();
-            case 2 -> listaDeClientes.get(rowIndex).getEmplacamento().getNomeDaPlaca();
-            case 3 -> listaDeClientes.get(rowIndex).getEmplacamento().getQuantidadeDeParcelas();
-            case 4 -> formatadorDeNumeros(listaDeClientes.get(rowIndex).getEmplacamento().getListaDeparcelas().get(0).getValorDaParcela());
-            case 5 -> listaDeClientes.get(rowIndex).getEmplacamento().getValorTotal();
-            default -> "-";
-        };
+        try {
+            if (columnIndex == 0) {
+                return listaDeClientes.get(rowIndex).getNome();
+            } else if (columnIndex == 1) {
+                return listaDeClientes.get(rowIndex).getTelefone();
+            } else if (columnIndex == 2) {
+                return listaDeClientes.get(rowIndex).getEmplacamento().getNomeDaPlaca();
+            } else if (columnIndex == 3) {
+                return listaDeClientes.get(rowIndex).getEmplacamento().getQuantidadeDeParcelas();
+            } else if (columnIndex == 4) {
+                return formatadorDeNumeros(listaDeClientes.get(rowIndex).getEmplacamento().getListaDeparcelas().get(0).getValorDaParcela());
+            } else if (columnIndex == 5) {
+                return listaDeClientes.get(rowIndex).getEmplacamento().getValorTotal();
+            } else {
+                return 0;
+            }
+        }catch (Exception ignored){
+
+        }
+        return 0;
     }
 
     @Override
