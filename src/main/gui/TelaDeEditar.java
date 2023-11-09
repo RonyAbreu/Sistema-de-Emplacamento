@@ -18,9 +18,11 @@ public class TelaDeEditar extends JFrame{
     private JButton botaoDeSalvar;
     private BancoDeDados bancoDeDados = new BancoDeDados();
     private RegistroClientes registroClientes;
+    private SistemaEmplacamentoTela sistemaEmplacamentoTela;
 
-    public TelaDeEditar(RegistroClientes registroClientes){
+    public TelaDeEditar(RegistroClientes registroClientes, SistemaEmplacamentoTela sistemaEmplacamentoTela){
         this.registroClientes = registroClientes;
+        this.sistemaEmplacamentoTela = sistemaEmplacamentoTela;
         configuraTela();
     }
 
@@ -50,6 +52,8 @@ public class TelaDeEditar extends JFrame{
             salvarDados();
 
             this.dispose();
+
+            sistemaEmplacamentoTela.retornaTodosOsClientesParaATabela();
         });
     }
 

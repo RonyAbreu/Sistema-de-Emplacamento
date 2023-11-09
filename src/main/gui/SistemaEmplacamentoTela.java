@@ -73,7 +73,6 @@ public class SistemaEmplacamentoTela extends JFrame {
         eventoDoBotaoDeAnotacoes();
         eventoDoBotaoDeEditar();
         eventoDoMouseAoClicar();
-        eventoDoBotaoDeAtualizar();
     }
 
     private void configuraTela(){
@@ -245,7 +244,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         seletorDeParcela.setSelectedIndex(0);
     }
 
-    private void retornaTodosOsClientesParaATabela(){
+    public void retornaTodosOsClientesParaATabela(){
         ArrayList<Cliente> listaDeClientes = registroClientes.retornarTodosOsClientes();
         ModeloDaTabela modeloDaTabela = new ModeloDaTabela(listaDeClientes);
         tabelaDeClientes.setModel(modeloDaTabela);
@@ -265,8 +264,8 @@ public class SistemaEmplacamentoTela extends JFrame {
     private void pegarDadosDaTelaDeSimulacaoParaAtelaCadastro(){
         telaPrincipal.setSelectedIndex(1);
         caixaDeTextoPlacaCad.setText(caixaDeTextoPlaca.getText());
-        caixaDeTextoEmplacamentoCad.setText(caixaDeTextoValorEmplacamento.getText());
-        caixaDeTextoValorEntradaCad.setText(caixaDeTextoValorEntrada.getText());
+        caixaDeTextoEmplacamentoCad.setText(caixaDeTextoValorEmplacamento.getText().replace(",","."));
+        caixaDeTextoValorEntradaCad.setText(caixaDeTextoValorEntrada.getText().replace(",","."));
         caixaDeTextoValorTotalCad.setText(caixaDeTextoValorTotal.getText());
         caixaDeTextoValorParcelaCad.setText(caixaDeTextoValorParcela.getText());
         seletorParcelaCad.setSelectedIndex(seletorDeParcela.getSelectedIndex());
@@ -424,7 +423,7 @@ public class SistemaEmplacamentoTela extends JFrame {
             if (campoDeVizualizarNomeEhVazio()){
                 JOptionPane.showMessageDialog(this, "Selecione o Cliente que deseja Editar!");
             } else {
-                TelaDeEditar telaDeEditar = new TelaDeEditar(registroClientes);
+                TelaDeEditar telaDeEditar = new TelaDeEditar(registroClientes,this);
                 String nomeDoCliente = campoDeVizualizarNome.getText();
                 Cliente clienteRetornado = registroClientes.retornaClientePeloNome(nomeDoCliente);
 
@@ -610,10 +609,4 @@ public class SistemaEmplacamentoTela extends JFrame {
         return campoDeVizualizarNome.getText().isBlank();
     }
 
-    public void eventoDoBotaoDeAtualizar(){
-        atualizarButton.addActionListener(e -> {
-            retornaTodosOsClientesParaATabela();
-            campoDeVizualizarNome.setText("");
-        });
-    }
 }
