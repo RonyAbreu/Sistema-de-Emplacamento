@@ -7,6 +7,7 @@ import main.entity.RegistroClientes;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class TelaDeParcelas extends JFrame{
@@ -61,69 +62,153 @@ public class TelaDeParcelas extends JFrame{
 
     public void eventoBotaoDePagarParcela1(){
         botaoDePagarPar1.addActionListener(e -> {
+            int opcao = JOptionPane.showConfirmDialog(this, "A Parcela passou da Data de Vencimento?","Informativo",JOptionPane.YES_NO_OPTION);
+
             String nomeCliente = campoDeTextoNomeClientePar.getText();
             ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeCliente);
-            Parcela parcela1 = listaDeParcelas.get(0);
-            parcela1.setPagamentoAtrasado(false);
 
-            salvarDados();
+            if (opcao == JOptionPane.YES_OPTION){
+                double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
+                double valorDaParcelaComJuros = listaDeParcelas.get(0).calculaParcelaComJuros(valorDaParcelaAtual);
+                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
-            tituloPar1.setForeground(VERDE);
-            valorPar1.setForeground(VERDE);
-            dataPar1.setForeground(VERDE);
-            caixaDeTextoValorPar1.setBackground(VERDE);
-            caixaDeTextoDataPar1.setBackground(VERDE);
+                Parcela parcela1 = listaDeParcelas.get(0);
+                parcela1.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar1.setForeground(VERDE);
+                valorPar1.setForeground(VERDE);
+                dataPar1.setForeground(VERDE);
+                caixaDeTextoValorPar1.setBackground(VERDE);
+                caixaDeTextoDataPar1.setBackground(VERDE);
+            } else {
+                Parcela parcela1 = listaDeParcelas.get(0);
+                parcela1.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar1.setForeground(VERDE);
+                valorPar1.setForeground(VERDE);
+                dataPar1.setForeground(VERDE);
+                caixaDeTextoValorPar1.setBackground(VERDE);
+                caixaDeTextoDataPar1.setBackground(VERDE);
+            }
         });
     }
 
     public void eventoBotaoDePagarParcela2(){
         botaoDePagarPar2.addActionListener(e -> {
+            int opcao = JOptionPane.showConfirmDialog(this, "A Parcela passou da Data de Vencimento?","Informativo",JOptionPane.YES_NO_OPTION);
+
             String nomeCliente = campoDeTextoNomeClientePar.getText();
             ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeCliente);
-            Parcela parcela2 = listaDeParcelas.get(1);
-            parcela2.setPagamentoAtrasado(false);
 
-            salvarDados();
+            if (opcao == JOptionPane.YES_OPTION){
+                double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
+                double valorDaParcelaComJuros = listaDeParcelas.get(1).calculaParcelaComJuros(valorDaParcelaAtual);
+                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
-            tituloPar2.setForeground(VERDE);
-            valorPar2.setForeground(VERDE);
-            dataPar2.setForeground(VERDE);
-            caixaDeTextoValorPar2.setBackground(VERDE);
-            caixaDeTextoDataPar2.setBackground(VERDE);
+                Parcela parcela2 = listaDeParcelas.get(1);
+                parcela2.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar2.setForeground(VERDE);
+                valorPar2.setForeground(VERDE);
+                dataPar2.setForeground(VERDE);
+                caixaDeTextoValorPar2.setBackground(VERDE);
+                caixaDeTextoDataPar2.setBackground(VERDE);
+            } else {
+                Parcela parcela2 = listaDeParcelas.get(1);
+                parcela2.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar2.setForeground(VERDE);
+                valorPar2.setForeground(VERDE);
+                dataPar2.setForeground(VERDE);
+                caixaDeTextoValorPar2.setBackground(VERDE);
+                caixaDeTextoDataPar2.setBackground(VERDE);
+            }
         });
     }
 
     public void eventoBotaoDePagarParcela3(){
         botaoDePagarPar3.addActionListener(e -> {
+            int opcao = JOptionPane.showConfirmDialog(this, "A Parcela passou da Data de Vencimento?","Informativo",JOptionPane.YES_NO_OPTION);
+
             String nomeCliente = campoDeTextoNomeClientePar.getText();
             ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeCliente);
-            Parcela parcela3 = listaDeParcelas.get(2);
-            parcela3.setPagamentoAtrasado(false);
 
-            salvarDados();
+            if (opcao == JOptionPane.YES_OPTION){
+                double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
+                double valorDaParcelaComJuros = listaDeParcelas.get(2).calculaParcelaComJuros(valorDaParcelaAtual);
+                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
-            tituloPar3.setForeground(VERDE);
-            valorPar3.setForeground(VERDE);
-            dataPar3.setForeground(VERDE);
-            caixaDeTextoValorPar3.setBackground(VERDE);
-            caixaDeTextoDataPar3.setBackground(VERDE);
+                Parcela parcela3 = listaDeParcelas.get(2);
+                parcela3.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar3.setForeground(VERDE);
+                valorPar3.setForeground(VERDE);
+                dataPar3.setForeground(VERDE);
+                caixaDeTextoValorPar3.setBackground(VERDE);
+                caixaDeTextoDataPar3.setBackground(VERDE);
+            } else {
+                Parcela parcela3 = listaDeParcelas.get(2);
+                parcela3.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar3.setForeground(VERDE);
+                valorPar3.setForeground(VERDE);
+                dataPar3.setForeground(VERDE);
+                caixaDeTextoValorPar3.setBackground(VERDE);
+                caixaDeTextoDataPar3.setBackground(VERDE);
+            }
         });
     }
 
     public void eventoBotaoDePagarParcela4(){
         botaoDePagarPar4.addActionListener(e -> {
+            int opcao = JOptionPane.showConfirmDialog(this, "A Parcela passou da Data de Vencimento?","Informativo",JOptionPane.YES_NO_OPTION);
+
             String nomeCliente = campoDeTextoNomeClientePar.getText();
             ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeCliente);
-            Parcela parcela4 = listaDeParcelas.get(3);
-            parcela4.setPagamentoAtrasado(false);
 
-            salvarDados();
+            if (opcao == JOptionPane.YES_OPTION){
+                double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
+                double valorDaParcelaComJuros = listaDeParcelas.get(3).calculaParcelaComJuros(valorDaParcelaAtual);
+                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
-            tituloPar4.setForeground(VERDE);
-            valorPar4.setForeground(VERDE);
-            dataPar4.setForeground(VERDE);
-            caixaDeTextoValorPar4.setBackground(VERDE);
-            caixaDeTextoDataPar4.setBackground(VERDE);
+                Parcela parcela4 = listaDeParcelas.get(3);
+                parcela4.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar4.setForeground(VERDE);
+                valorPar4.setForeground(VERDE);
+                dataPar4.setForeground(VERDE);
+                caixaDeTextoValorPar4.setBackground(VERDE);
+                caixaDeTextoDataPar4.setBackground(VERDE);
+            } else {
+                Parcela parcela4 = listaDeParcelas.get(3);
+                parcela4.setPagamentoAtrasado(false);
+
+                salvarDados();
+
+                tituloPar4.setForeground(VERDE);
+                valorPar4.setForeground(VERDE);
+                dataPar4.setForeground(VERDE);
+                caixaDeTextoValorPar4.setBackground(VERDE);
+                caixaDeTextoDataPar4.setBackground(VERDE);
+            }
         });
     }
 
@@ -180,6 +265,10 @@ public class TelaDeParcelas extends JFrame{
         dataPar4.setForeground(VERDE);
         caixaDeTextoValorPar4.setBackground(VERDE);
         caixaDeTextoDataPar4.setBackground(VERDE);
+    }
+
+    private String formatadorDeNumeros(Double numero){
+        return new DecimalFormat("##.##").format(numero).replace(",",".");
     }
 
     public JTextField getCampoDeTextoNomeClientePar() {

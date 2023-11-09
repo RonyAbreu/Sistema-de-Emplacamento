@@ -11,7 +11,7 @@ data class Parcela(
     private fun calculaDiasDeVencimento(): Int {
         val hoje = LocalDate.now()
         if (hoje > dataDeVencimento) {
-            return hoje.until(dataDeVencimento).days
+            return dataDeVencimento.until(hoje).days
         }
        return 0
     }
