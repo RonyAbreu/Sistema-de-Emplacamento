@@ -87,8 +87,4 @@ public class TelaDeEditar extends JFrame{
     public void setTextoCampoDeAnotacaoEd(String anotacaoEd) {
         this.campoDeAnotacaoEd.setText(anotacaoEd);
     }
-
-    public boolean clienteFoiCadastrado(String mensagem){
-        return !mensagem.isBlank();
-    }
 }

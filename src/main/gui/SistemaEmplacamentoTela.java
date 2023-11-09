@@ -117,7 +117,7 @@ public class SistemaEmplacamentoTela extends JFrame {
     }
 
     private boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
-        return caixaDeTextoPlaca.getText().isBlank() || caixaDeTextoValorEmplacamento.getText().isBlank() || caixaDeTextoValorEntrada.getText().isBlank();
+        return caixaDeTextoPlaca.getText().isEmpty() || caixaDeTextoValorEmplacamento.getText().isEmpty() || caixaDeTextoValorEntrada.getText().isEmpty();
     }
 
     private String formatadorDeNumeros(Double numero){
@@ -203,10 +203,10 @@ public class SistemaEmplacamentoTela extends JFrame {
     }
 
     private boolean caixaDeTextoEhVaziaTelaDeCadastro(){
-        return caixaDeTextoNomeCliente.getText().isBlank() || caixaDeTextoTelefone.getText().isBlank() ||
-                caixaDeTextoPlacaCad.getText().isBlank() || caixaDeTextoEmplacamentoCad.getText().isBlank() ||
-                caixaDeTextoValorEntradaCad.getText().isBlank() || caixaDeTextoValorTotalCad.getText().isBlank() ||
-                caixaDeTextoValorParcelaCad.getText().isBlank();
+        return caixaDeTextoNomeCliente.getText().isEmpty() || caixaDeTextoTelefone.getText().isEmpty() ||
+                caixaDeTextoPlacaCad.getText().isEmpty() || caixaDeTextoEmplacamentoCad.getText().isEmpty() ||
+                caixaDeTextoValorEntradaCad.getText().isEmpty() || caixaDeTextoValorTotalCad.getText().isEmpty() ||
+                caixaDeTextoValorParcelaCad.getText().isEmpty();
     }
 
     private void salvarCliente(){
@@ -333,13 +333,13 @@ public class SistemaEmplacamentoTela extends JFrame {
     }
 
     private boolean campoDePesquisaEhVazio(){
-        return (caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isBlank()) ||
-                caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isBlank();
+        return (caixaDeSelecaoPorNomeDoCliente.isSelected() && campoDeTextoBuscar.getText().isEmpty()) ||
+                caixaDeSelecaoPorNomeDaPlaca.isSelected() && campoDeTextoBuscar.getText().isEmpty();
     }
 
     private boolean campoDeSelecaoEhVazioEContemTexto(){
         return (!caixaDeSelecaoPorNomeDoCliente.isSelected() && !campoDeTextoBuscar.getText().isEmpty() &&
-                !caixaDeSelecaoPorNomeDaPlaca.isSelected() && !campoDeTextoBuscar.getText().isBlank());
+                !caixaDeSelecaoPorNomeDaPlaca.isSelected() && !campoDeTextoBuscar.getText().isEmpty());
     }
 
     private void retornaOsClientesComNomePesquisadoParaATabela(String nome){
@@ -598,7 +598,7 @@ public class SistemaEmplacamentoTela extends JFrame {
         tabelaDeClientes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                var linhaClicada = tabelaDeClientes.getSelectedRow();
+                int linhaClicada = tabelaDeClientes.getSelectedRow();
                 String nomeDoCliente = (String) tabelaDeClientes.getValueAt(linhaClicada,0);
                 campoDeVizualizarNome.setText(nomeDoCliente);
             }
@@ -606,7 +606,7 @@ public class SistemaEmplacamentoTela extends JFrame {
     }
 
     private boolean campoDeVizualizarNomeEhVazio(){
-        return campoDeVizualizarNome.getText().isBlank();
+        return campoDeVizualizarNome.getText().isEmpty();
     }
 
 }

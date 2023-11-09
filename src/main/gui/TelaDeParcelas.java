@@ -221,16 +221,16 @@ public class TelaDeParcelas extends JFrame{
     }
 
     public void verificaSeExisteParcela(){
-        if (caixaDeTextoValorPar1.getText().isBlank() && caixaDeTextoDataPar1.getText().isBlank()){
+        if (caixaDeTextoValorPar1.getText().isEmpty() && caixaDeTextoDataPar1.getText().isEmpty()){
             botaoDePagarPar1.setEnabled(false);
         }
-        if (caixaDeTextoValorPar2.getText().isBlank() && caixaDeTextoDataPar2.getText().isBlank()){
+        if (caixaDeTextoValorPar2.getText().isEmpty() && caixaDeTextoDataPar2.getText().isEmpty()){
             botaoDePagarPar2.setEnabled(false);
         }
-        if (caixaDeTextoValorPar3.getText().isBlank() && caixaDeTextoDataPar3.getText().isBlank()){
+        if (caixaDeTextoValorPar3.getText().isEmpty() && caixaDeTextoDataPar3.getText().isEmpty()){
             botaoDePagarPar3.setEnabled(false);
         }
-        if (caixaDeTextoValorPar4.getText().isBlank() && caixaDeTextoDataPar4.getText().isBlank()){
+        if (caixaDeTextoValorPar4.getText().isEmpty() && caixaDeTextoDataPar4.getText().isEmpty()){
             botaoDePagarPar4.setEnabled(false);
         }
     }
