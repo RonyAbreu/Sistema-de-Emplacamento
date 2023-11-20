@@ -129,6 +129,7 @@ public class SistemaEmplacamentoTela extends JFrame {
                 registroClientes.cadastrarClientes(clienteParaCadastrar);
 
                 persistirDados();
+                JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
                 limparCamposDeTextoTelaDeCadastro();
                 limparCamposDeTextoTelaDeSimulacao();
                 textoDeAvisoCad.setText("");
@@ -179,9 +180,8 @@ public class SistemaEmplacamentoTela extends JFrame {
     private void persistirDados(){
         try {
             bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
-            JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null,"Não foi possível salvar o Cliente");
+            JOptionPane.showMessageDialog(null,"Não foi salvar os dados");
         }
     }
 
