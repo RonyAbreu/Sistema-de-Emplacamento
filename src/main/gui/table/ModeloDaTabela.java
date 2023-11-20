@@ -1,6 +1,7 @@
 package main.gui.table;
 
 import main.entity.Cliente;
+import main.utils.FormatadorDeNumeros;
 
 import javax.swing.table.AbstractTableModel;
 import java.text.DecimalFormat;
@@ -36,7 +37,7 @@ public class ModeloDaTabela extends AbstractTableModel {
             } else if (columnIndex == 3) {
                 return listaDeClientes.get(rowIndex).getEmplacamento().getQuantidadeDeParcelas();
             } else if (columnIndex == 4) {
-                return formatadorDeNumeros(listaDeClientes.get(rowIndex).getEmplacamento().getListaDeparcelas().get(0).getValorDaParcela());
+                return FormatadorDeNumeros.formatarNumero(listaDeClientes.get(rowIndex).getEmplacamento().getListaDeparcelas().get(0).getValorDaParcela());
             } else if (columnIndex == 5) {
                 return listaDeClientes.get(rowIndex).getEmplacamento().getValorTotal();
             } else {
@@ -60,10 +61,5 @@ public class ModeloDaTabela extends AbstractTableModel {
         } else {
             return Object.class;
         }
-    }
-
-    private Double formatadorDeNumeros(Double numero){
-        DecimalFormat decimalFormat = new DecimalFormat("##.##");
-        return Double.parseDouble(decimalFormat.format(numero).replace(",","."));
     }
 }

@@ -3,11 +3,14 @@ package main.gui;
 import main.db.BancoDeDados;
 import main.entity.Parcela;
 import main.entity.RegistroClientes;
+import main.utils.EnumeradorDeParcelas;
+import main.utils.FormatadorDeNumeros;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TelaDeParcelas extends JFrame{
@@ -70,7 +73,7 @@ public class TelaDeParcelas extends JFrame{
             if (opcao == JOptionPane.YES_OPTION){
                 double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
                 double valorDaParcelaComJuros = listaDeParcelas.get(0).calculaParcelaComJuros(valorDaParcelaAtual);
-                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                String valorDaParcelaComJurosFormatado = FormatadorDeNumeros.formatarNumero(valorDaParcelaComJuros);
                 JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
                 Parcela parcela1 = listaDeParcelas.get(0);
@@ -108,7 +111,7 @@ public class TelaDeParcelas extends JFrame{
             if (opcao == JOptionPane.YES_OPTION){
                 double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
                 double valorDaParcelaComJuros = listaDeParcelas.get(1).calculaParcelaComJuros(valorDaParcelaAtual);
-                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                String valorDaParcelaComJurosFormatado = FormatadorDeNumeros.formatarNumero(valorDaParcelaComJuros);
                 JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
                 Parcela parcela2 = listaDeParcelas.get(1);
@@ -146,7 +149,7 @@ public class TelaDeParcelas extends JFrame{
             if (opcao == JOptionPane.YES_OPTION){
                 double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
                 double valorDaParcelaComJuros = listaDeParcelas.get(2).calculaParcelaComJuros(valorDaParcelaAtual);
-                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                String valorDaParcelaComJurosFormatado = FormatadorDeNumeros.formatarNumero(valorDaParcelaComJuros);
                 JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
                 Parcela parcela3 = listaDeParcelas.get(2);
@@ -184,7 +187,7 @@ public class TelaDeParcelas extends JFrame{
             if (opcao == JOptionPane.YES_OPTION){
                 double valorDaParcelaAtual = Double.parseDouble(caixaDeTextoValorPar1.getText());
                 double valorDaParcelaComJuros = listaDeParcelas.get(3).calculaParcelaComJuros(valorDaParcelaAtual);
-                String valorDaParcelaComJurosFormatado = formatadorDeNumeros(valorDaParcelaComJuros);
+                String valorDaParcelaComJurosFormatado = FormatadorDeNumeros.formatarNumero(valorDaParcelaComJuros);
                 JOptionPane.showMessageDialog(this, "VALOR A SER PAGO: " + valorDaParcelaComJurosFormatado);
 
                 Parcela parcela4 = listaDeParcelas.get(3);
@@ -235,6 +238,41 @@ public class TelaDeParcelas extends JFrame{
         }
     }
 
+    public void adicionaValorEDataDasParcelasATelaDeParcelas( ArrayList<Parcela> listaDeParcelas){
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        if (listaDeParcelas.size() == 1){
+            EnumeradorDeParcelas.incluiUmaParcela(this,listaDeParcelas,formatador);
+        }
+        else if (listaDeParcelas.size() == 2){
+            EnumeradorDeParcelas.incluiDuasParcela(this,listaDeParcelas,formatador);
+        }
+        else if (listaDeParcelas.size() == 3){
+            EnumeradorDeParcelas.incluiTresParcela(this,listaDeParcelas,formatador);
+        }
+        else if (listaDeParcelas.size() == 4){
+            EnumeradorDeParcelas.incluiQuatroParcela(this,listaDeParcelas,formatador);
+        }
+    }
+
+    public void verificaPagamentoDaParcelaEAlteraCor(ArrayList<Parcela> listaDeParcelas){
+        try{
+            if (!listaDeParcelas.get(0).getPagamentoAtrasado()){
+                alteraCorDaPrimeiraParcelaParaVerde();
+            }
+            if (!listaDeParcelas.get(1).getPagamentoAtrasado()) {
+                alteraCorDaSegundaParcelaParaVerde();
+            }
+            if (!listaDeParcelas.get(2).getPagamentoAtrasado()){
+                alteraCorDaTerceiraParcelaParaVerde();
+            }
+            if (!listaDeParcelas.get(3).getPagamentoAtrasado()){
+                alteraCorDaQuartaParcelaParaVerde();
+            }
+        }catch (Exception ignored){
+
+        }
+    }
+
     public void alteraCorDaPrimeiraParcelaParaVerde(){
         tituloPar1.setForeground(VERDE);
         valorPar1.setForeground(VERDE);
@@ -267,12 +305,8 @@ public class TelaDeParcelas extends JFrame{
         caixaDeTextoDataPar4.setBackground(VERDE);
     }
 
-    private String formatadorDeNumeros(Double numero){
-        return new DecimalFormat("##.##").format(numero).replace(",",".");
-    }
-
-    public JTextField getCampoDeTextoNomeClientePar() {
-        return campoDeTextoNomeClientePar;
+    public void setCampoDeTextoNomeClientePar(String texto) {
+        campoDeTextoNomeClientePar.setText(texto);
     }
 
     public JTextField getCaixaDeTextoValorPar1() {

@@ -5,12 +5,12 @@ import main.entity.*;
 import main.exceptions.ClienteNaoExisteException;
 import main.exceptions.ValorDeEntradaInvalidoException;
 import main.gui.table.ModeloDaTabela;
+import main.utils.EnumeradorDeParcelas;
+import main.utils.FormatadorDeNumeros;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -87,7 +87,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoBotaoDeSimular(){
         botaoDeSimular.addActionListener(e -> {
-            if (caixaDeTextoEhVaziaTelaDeSimulacao()){
+            if (caixaDeTextoDaTelaSimulacaoEhVazia()){
                 textoDeAviso.setText("Preencha todos os campos!");
             } else {
                 try{
@@ -100,8 +100,8 @@ public class SistemaEmplacamentoTela extends JFrame {
                     Double valorTotal = infoEmplacamento.calculaValorTotalSimulacao(valorDoEmplacamento,valorDeEntrada);
                     Double valorDaParcela = infoEmplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
 
-                    String valorTotalFormatado = formatadorDeNumeros(valorTotal);
-                    String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
+                    String valorTotalFormatado = FormatadorDeNumeros.formatarNumero(valorTotal);
+                    String valorDaParcelaFormatado = FormatadorDeNumeros.formatarNumero(valorDaParcela);
 
                     caixaDeTextoValorTotal.setText(valorTotalFormatado);
                     caixaDeTextoValorParcela.setText(valorDaParcelaFormatado);
@@ -116,24 +116,22 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
-    private boolean caixaDeTextoEhVaziaTelaDeSimulacao(){
+    private boolean caixaDeTextoDaTelaSimulacaoEhVazia(){
         return caixaDeTextoPlaca.getText().isEmpty() || caixaDeTextoValorEmplacamento.getText().isEmpty() || caixaDeTextoValorEntrada.getText().isEmpty();
     }
-
-    private String formatadorDeNumeros(Double numero){
-        return new DecimalFormat("##.##").format(numero).replace(",",".");
-    }
-
+    
     public void eventoBotaoDeCadastrar(){
         botaoCadastrar.addActionListener(e -> {
-            if (caixaDeTextoEhVaziaTelaDeCadastro()){
+            if (caixaDeTextoDaTelaCadastroEhVazia()){
                 textoDeAvisoCad.setText("Preencha todos os campos!");
             } else {
                 Cliente clienteParaCadastrar = criaObjetoCliente();
                 registroClientes.cadastrarClientes(clienteParaCadastrar);
 
-                salvarCliente();
-
+                persistirDados();
+                limparCamposDeTextoTelaDeCadastro();
+                limparCamposDeTextoTelaDeSimulacao();
+                textoDeAvisoCad.setText("");
                 retornaTodosOsClientesParaATabela();
             }
         });
@@ -157,67 +155,31 @@ public class SistemaEmplacamentoTela extends JFrame {
 
         InfoEmplacamento emplacamento = new InfoEmplacamento(nomeDaPlaca,valorDoEmplacamento,valorDeEntrada,quantidadeDeParcelas);
         double valorTotal = emplacamento.calculaValorTotal();
-        String valorTotalFormatado = formatadorDeNumeros(valorTotal);
+        String valorTotalFormatado = FormatadorDeNumeros.formatarNumero(valorTotal);
         emplacamento.setValorTotal(Double.parseDouble(valorTotalFormatado));
 
         Parcela parcela = new Parcela();
         double valorDaParcela = emplacamento.calculaValorDaParcela(valorDoEmplacamento,quantidadeDeParcelas,valorDeEntrada);
         parcela.setValorDaParcela(valorDaParcela);
 
-        ArrayList<Parcela> listaDeParcelas = retornaListaDeParcelas(quantidadeDeParcelas,parcela);
+        ArrayList<Parcela> listaDeParcelas = emplacamento.retornaListaDeParcelas(quantidadeDeParcelas,parcela);
 
         emplacamento.setListaDeparcelas(listaDeParcelas);
 
         return emplacamento;
     }
 
-    private ArrayList<Parcela> retornaListaDeParcelas(Integer quantidadeDeParcelas, Parcela parcela){
-        ArrayList<Parcela> listaDeParcelas = new ArrayList<>();
-        for (int i = 0; i < quantidadeDeParcelas; i++){
-            if(i == 0){
-                Parcela parcela1 = new Parcela();
-                parcela1.setValorDaParcela(parcela.getValorDaParcela());
-                listaDeParcelas.add(parcela1);
-            }
-            if (i == 1){
-                Parcela parcela2 = new Parcela();
-                parcela2.setValorDaParcela(parcela.getValorDaParcela());
-                LocalDate dataDaSegundaParcela = parcela2.getDataDeVencimento().plusDays(30);
-                parcela2.setDataDeVencimento(dataDaSegundaParcela);
-                listaDeParcelas.add(parcela2);
-            } else if (i == 2) {
-                Parcela parcela3 = new Parcela();
-                parcela3.setValorDaParcela(parcela.getValorDaParcela());
-                LocalDate dataDaTerceiraParcela = parcela3.getDataDeVencimento().plusDays(60);
-                parcela3.setDataDeVencimento(dataDaTerceiraParcela);
-                listaDeParcelas.add(parcela3);
-            } else if (i == 3) {
-                Parcela parcela4 = new Parcela();
-                parcela4.setValorDaParcela(parcela.getValorDaParcela());
-                LocalDate dataDaQuartaParcela = parcela4.getDataDeVencimento().plusDays(90);
-                parcela4.setDataDeVencimento(dataDaQuartaParcela);
-                listaDeParcelas.add(parcela4);
-            }
-        }
-        return listaDeParcelas;
-    }
-
-    private boolean caixaDeTextoEhVaziaTelaDeCadastro(){
+    private boolean caixaDeTextoDaTelaCadastroEhVazia(){
         return caixaDeTextoNomeCliente.getText().isEmpty() || caixaDeTextoTelefone.getText().isEmpty() ||
                 caixaDeTextoPlacaCad.getText().isEmpty() || caixaDeTextoEmplacamentoCad.getText().isEmpty() ||
                 caixaDeTextoValorEntradaCad.getText().isEmpty() || caixaDeTextoValorTotalCad.getText().isEmpty() ||
                 caixaDeTextoValorParcelaCad.getText().isEmpty();
     }
 
-    private void salvarCliente(){
+    private void persistirDados(){
         try {
             bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
-
             JOptionPane.showMessageDialog(null,"Cliente cadastrado com sucesso!");
-
-            textoDeAvisoCad.setText("");
-            limparCamposDeTextoTelaDeCadastro();
-            limparCamposDeTextoTelaDeSimulacao();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null,"Não foi possível salvar o Cliente");
         }
@@ -253,7 +215,7 @@ public class SistemaEmplacamentoTela extends JFrame {
 
     public void eventoBotaoDeFazerCadastro(){
         botaoDeFazerCadastro.addActionListener(e -> {
-            if (caixaDeTextoEhVaziaTelaDeSimulacao()){
+            if (caixaDeTextoDaTelaSimulacaoEhVazia()){
                 textoDeAviso.setText("Preencha todos os campos!");
             } else{
                 pegarDadosDaTelaDeSimulacaoParaAtelaCadastro();
@@ -411,13 +373,6 @@ public class SistemaEmplacamentoTela extends JFrame {
         });
     }
 
-    public void persistirDados(){
-        try {
-            bancoDeDados.persistirDados(registroClientes.retornarTodosOsClientes());
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(this,"Erro ao persistir os dados!");
-        }
-    }
     public void eventoDoBotaoDeEditar(){
         botaoDeEditar.addActionListener(e -> {
             if (campoDeVizualizarNomeEhVazio()){
@@ -433,10 +388,6 @@ public class SistemaEmplacamentoTela extends JFrame {
                 String anotacaoAtual = clienteRetornado.getBlocoDeAnotacao();
 
                 telaDeEditar.preencheCamposComDadosDoCliente(nomeAtual, telefoneAtual, placaAtual, anotacaoAtual);
-
-                telaDeEditar.eventoDoBotaoDeSalvar(clienteRetornado);
-
-                campoDeVizualizarNome.setText("");
             }
 
         });
@@ -448,132 +399,18 @@ public class SistemaEmplacamentoTela extends JFrame {
             } else {
                 TelaDeParcelas telaDeParcelas = new TelaDeParcelas(registroClientes);
                 String nomeDoCliente = campoDeVizualizarNome.getText();
-                telaDeParcelas.getCampoDeTextoNomeClientePar().setText(nomeDoCliente);
+                telaDeParcelas.setCampoDeTextoNomeClientePar(nomeDoCliente);
 
                 ArrayList<Parcela> listaDeParcelas = registroClientes.retornarParcelasDoClientePeloNome(nomeDoCliente);
 
-                adicionaValorEDataDasParcelasATelaDeParcelas(telaDeParcelas,listaDeParcelas);
+                telaDeParcelas.adicionaValorEDataDasParcelasATelaDeParcelas(listaDeParcelas);
 
-                verificaPagamentoDaParcelaEAlteraCor(telaDeParcelas, listaDeParcelas);
+                telaDeParcelas.verificaPagamentoDaParcelaEAlteraCor(listaDeParcelas);
 
                 telaDeParcelas.verificaSeExisteParcela();
             }
 
         });
-    }
-
-    private void verificaPagamentoDaParcelaEAlteraCor(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas){
-        try{
-            if (!listaDeParcelas.get(0).getPagamentoAtrasado()){
-                telaDeParcelas.alteraCorDaPrimeiraParcelaParaVerde();
-            }
-            if (!listaDeParcelas.get(1).getPagamentoAtrasado()) {
-                telaDeParcelas.alteraCorDaSegundaParcelaParaVerde();
-            }
-            if (!listaDeParcelas.get(2).getPagamentoAtrasado()){
-                telaDeParcelas.alteraCorDaTerceiraParcelaParaVerde();
-            }
-            if (!listaDeParcelas.get(3).getPagamentoAtrasado()){
-                telaDeParcelas.alteraCorDaQuartaParcelaParaVerde();
-            }
-        }catch (Exception ignored){
-
-        }
-    }
-
-
-    public void adicionaValorEDataDasParcelasATelaDeParcelas(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas){
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        if (listaDeParcelas.size() == 1){
-            incluiUmaParcela(telaDeParcelas,listaDeParcelas,formatador);
-        }
-        else if (listaDeParcelas.size() == 2){
-            incluiDuasParcela(telaDeParcelas,listaDeParcelas,formatador);
-        }
-        else if (listaDeParcelas.size() == 3){
-            incluiTresParcela(telaDeParcelas,listaDeParcelas,formatador);
-        }
-        else if (listaDeParcelas.size() == 4){
-            incluiQuatroParcela(telaDeParcelas,listaDeParcelas,formatador);
-        }
-    }
-
-    private void incluiUmaParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
-        Double valorDaParcela = listaDeParcelas.get(0).getValorDaParcela();
-        String valorDaParcelaFormatado = formatadorDeNumeros(valorDaParcela);
-        LocalDate dataDaParcela = listaDeParcelas.get(0).getDataDeVencimento();
-        String dataFormatada = formatador.format(dataDaParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataFormatada);
-    }
-
-    private void incluiDuasParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
-        Double valorDaPrimeiraParcela = listaDeParcelas.get(0).getValorDaParcela();
-        String valorDaPrimeiraParcelaFormatado = formatadorDeNumeros(valorDaPrimeiraParcela);
-        LocalDate dataDaPrimeiraParcela = listaDeParcelas.get(0).getDataDeVencimento();
-        String dataDaPrimeiraParcelaFormatada = formatador.format(dataDaPrimeiraParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaPrimeiraParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataDaPrimeiraParcelaFormatada);
-
-        Double valorDaSegundaParcela = listaDeParcelas.get(1).getValorDaParcela();
-        String valorDaSegundaParcelaFormatado = formatadorDeNumeros(valorDaSegundaParcela);
-        LocalDate dataDaSegundaParcela = listaDeParcelas.get(1).getDataDeVencimento();
-        String dataDeSegundaParcelaFormatada = formatador.format(dataDaSegundaParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar2().setText(valorDaSegundaParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar2().setText(dataDeSegundaParcelaFormatada);
-    }
-
-    private void incluiTresParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
-        Double valorDaPrimeiraParcela = listaDeParcelas.get(0).getValorDaParcela();
-        String valorDaPrimeiraParcelaFormatado = formatadorDeNumeros(valorDaPrimeiraParcela);
-        LocalDate dataDaPrimeiraParcela = listaDeParcelas.get(0).getDataDeVencimento();
-        String dataDaPrimeiraParcelaFormatada = formatador.format(dataDaPrimeiraParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaPrimeiraParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataDaPrimeiraParcelaFormatada);
-
-        Double valorDaSegundaParcela = listaDeParcelas.get(1).getValorDaParcela();
-        String valorDaSegundaParcelaFormatado = formatadorDeNumeros(valorDaSegundaParcela);
-        LocalDate dataDaSegundaParcela = listaDeParcelas.get(1).getDataDeVencimento();
-        String dataDeSegundaParcelaFormatada = formatador.format(dataDaSegundaParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar2().setText(valorDaSegundaParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar2().setText(dataDeSegundaParcelaFormatada);
-
-        Double valorDaTerceiraParcela = listaDeParcelas.get(2).getValorDaParcela();
-        String valorDaTerceiraParcelaFormatado = formatadorDeNumeros(valorDaTerceiraParcela);
-        LocalDate dataDaTerceiraParcela = listaDeParcelas.get(2).getDataDeVencimento();
-        String dataDaTerceiraParcelaFormatada = formatador.format(dataDaTerceiraParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar3().setText(valorDaTerceiraParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar3().setText(dataDaTerceiraParcelaFormatada);
-    }
-
-    private void incluiQuatroParcela(TelaDeParcelas telaDeParcelas, ArrayList<Parcela> listaDeParcelas, DateTimeFormatter formatador){
-        Double valorDaPrimeiraParcela = listaDeParcelas.get(0).getValorDaParcela();
-        String valorDaPrimeiraParcelaFormatado = formatadorDeNumeros(valorDaPrimeiraParcela);
-        LocalDate dataDaPrimeiraParcela = listaDeParcelas.get(0).getDataDeVencimento();
-        String dataDaPrimeiraParcelaFormatada = formatador.format(dataDaPrimeiraParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar1().setText(valorDaPrimeiraParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar1().setText(dataDaPrimeiraParcelaFormatada);
-
-        Double valorDaSegundaParcela = listaDeParcelas.get(1).getValorDaParcela();
-        String valorDaSegundaParcelaFormatado = formatadorDeNumeros(valorDaSegundaParcela);
-        LocalDate dataDaSegundaParcela = listaDeParcelas.get(1).getDataDeVencimento();
-        String dataDeSegundaParcelaFormatada = formatador.format(dataDaSegundaParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar2().setText(valorDaSegundaParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar2().setText(dataDeSegundaParcelaFormatada);
-
-        Double valorDaTerceiraParcela = listaDeParcelas.get(2).getValorDaParcela();
-        String valorDaTerceiraParcelaFormatado = formatadorDeNumeros(valorDaTerceiraParcela);
-        LocalDate dataDaTerceiraParcela = listaDeParcelas.get(2).getDataDeVencimento();
-        String dataDaTerceiraParcelaFormatada = formatador.format(dataDaTerceiraParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar3().setText(valorDaTerceiraParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar3().setText(dataDaTerceiraParcelaFormatada);
-
-        Double valorDaQuartaParcela = listaDeParcelas.get(3).getValorDaParcela();
-        String valorDaQuartaParcelaFormatado = formatadorDeNumeros(valorDaQuartaParcela);
-        LocalDate dataDaQuartaParcela = listaDeParcelas.get(3).getDataDeVencimento();
-        String dataDaQuartaParcelaFormatada = formatador.format(dataDaQuartaParcela);
-        telaDeParcelas.getCaixaDeTextoValorPar4().setText(valorDaQuartaParcelaFormatado);
-        telaDeParcelas.getCaixaDeTextoDataPar4().setText(dataDaQuartaParcelaFormatada);
     }
 
     public void eventoDoBotaoDeAnotacoes(){
@@ -609,4 +446,11 @@ public class SistemaEmplacamentoTela extends JFrame {
         return campoDeVizualizarNome.getText().isEmpty();
     }
 
+    public String getCampoDeVizualizarNome() {
+        return campoDeVizualizarNome.getText();
+    }
+
+    public void settCampoDeVizualizarNome(String texto) {
+        campoDeVizualizarNome.setText(texto);
+    }
 }
